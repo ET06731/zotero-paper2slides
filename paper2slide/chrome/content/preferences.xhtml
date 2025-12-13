@@ -10,6 +10,9 @@
             <menulist id="paper2slide-provider" preference="extensions.paper2slide.provider" style="flex: 1;">
                 <menupopup>
                     <menuitem label="DeepSeek" value="deepseek" />
+                    <menuitem label="Kimi (月之暗面)" value="kimi" />
+                    <menuitem label="豆包 (字节跳动)" value="doubao" />
+                    <menuitem label="智谱 GLM" value="zhipu" />
                     <menuitem label="OpenAI" value="openai" />
                     <menuitem label="Google Gemini" value="gemini" />
                     <menuitem label="自定义 (OpenAI 兼容)" value="custom" />
@@ -28,8 +31,11 @@
             <html:input type="text" id="paper2slide-model" preference="extensions.paper2slide.model"
                 placeholder="留空使用默认模型" style="flex: 1; padding: 4px;" />
         </hbox>
-        <label value="  DeepSeek: deepseek-chat | OpenAI: gpt-4o-mini | Gemini: gemini-1.5-flash"
-            style="font-size: 11px; color: #888; margin-left: 120px;" />
+        <hbox>
+            <label value="" style="width: 120px;" />
+            <label value="DeepSeek: deepseek-chat | OpenAI: gpt-4o-mini | Gemini: gemini-1.5-flash"
+                style="font-size: 11px; color: #888;" />
+        </hbox>
 
         <hbox align="center">
             <label value="自定义 Base URL:" style="width: 120px;" />

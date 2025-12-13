@@ -32,6 +32,9 @@ var Paper2SlideLLM = {
             'deepseek': 'https://api.deepseek.com',
             'openai': 'https://api.openai.com',
             'gemini': 'https://generativelanguage.googleapis.com',
+            'kimi': 'https://api.moonshot.cn',
+            'doubao': 'https://ark.cn-beijing.volces.com/api',
+            'zhipu': 'https://open.bigmodel.cn/api/paas',
             'custom': customUrl || 'http://localhost:11434'
         };
         return urls[provider] || urls['deepseek'];
@@ -43,6 +46,9 @@ var Paper2SlideLLM = {
             'deepseek': 'deepseek-chat',
             'openai': 'gpt-4o-mini',
             'gemini': 'gemini-1.5-flash',
+            'kimi': 'moonshot-v1-8k',
+            'doubao': 'doubao-pro-4k',
+            'zhipu': 'glm-4-flash',
             'custom': 'llama3'
         };
         return models[provider] || 'deepseek-chat';
@@ -57,11 +63,15 @@ var Paper2SlideLLM = {
                 `你是一个学术演示文稿专家。请根据以下论文内容创建一个结构清晰的HTML演示文稿，包含6-10张幻灯片。
 
 要求：
-- 第一张：标题和作者
-- 包含：背景、方法、主要结果、讨论、结论
-- 使用要点列表
+- 第一张：标题和作者（作者只保留3-5人，超出用"等"代替，作者名必须在同一行）
+- 包含：背景/动机、方法、主要结果、讨论、结论
+- 使用要点列表，每个要点简洁明了
 - 每张幻灯片聚焦一个主题
 - 使用清晰的中文
+
+格式要求：
+- 标题页作者格式示例：张三, 李四, 王五 等
+- 每个要点不超过两行
 
 只输出有效的HTML代码，不要markdown，不要解释。
 使用以下结构：
@@ -78,11 +88,15 @@ var Paper2SlideLLM = {
 Given the following academic paper text, create a well-structured HTML presentation with 6-10 slides.
 
 Requirements:
-- First slide: Title and authors
-- Include: Background, Methods, Key Results, Discussion, Conclusion
-- Use bullet points for clarity
+- First slide: Title and authors (keep only 3-5 authors on ONE line, use "et al." for additional authors)
+- Include: Background/Motivation, Methods, Key Results, Discussion, Conclusion
+- Use bullet points for clarity, keep each point concise
 - Keep each slide focused on one main idea
 - Use clear, academic language
+
+Formatting:
+- Author line example: John Smith, Jane Doe, Bob Wilson et al.
+- Each bullet point should be no more than 2 lines
 
 Output ONLY valid HTML code for the slides, no markdown, no explanations.
 Use this exact structure for each slide:
