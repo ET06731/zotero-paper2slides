@@ -187,7 +187,7 @@ Output ONLY valid HTML using <section class="slide"> tags.`
                 'Authorization': 'Bearer ' + apiKey
             },
             body: body,
-            timeout: 120000 // 2 minutes timeout
+            timeout: 300000 // 5 minutes timeout
         });
 
         if (response.status !== 200) {
@@ -227,7 +227,7 @@ Output ONLY valid HTML using <section class="slide"> tags.`
                 'Content-Type': 'application/json'
             },
             body: body,
-            timeout: 120000
+            timeout: 300000 // 5 minutes timeout
         });
 
         if (response.status !== 200) {

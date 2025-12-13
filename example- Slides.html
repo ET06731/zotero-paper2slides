@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep research agents: A systematic examination and roadmap - Slides</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'SF Pro Display', -apple-system, sans-serif;
+            background: #0d1117;
+            padding: 40px 20px;
+        }
+        .slide {
+            background: linear-gradient(180deg, #161b22 0%, #21262d 100%);
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 50px 60px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+        }
+        h2 {
+            color: #58a6ff;
+            font-size: 1.9em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #30363d;
+        }
+        .content { font-size: 1.15em; line-height: 1.8; color: #c9d1d9; }
+        ul, ol { margin-left: 25px; margin-top: 15px; }
+        li { margin-bottom: 12px; color: #8b949e; }</style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深度研究智能体：系统审视与路线图</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+        .slide {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin: 30px auto;
+            max-width: 1000px;
+            min-height: 500px;
+            box-sizing: border-box;
+            page-break-inside: avoid;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2980b9;
+        }
+        h3 {
+            color: #16a085;
+        }
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .example-box {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .data-point {
+            background: #e8f4fc;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #bde0fe;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .architecture-img {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .architecture-img img {
+            max-width: 90%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .citation {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            text-align: right;
+            margin-top: 30px;
+        }
+        ul, ol {
+            line-height: 1.6;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<section class="slide">
+    <h1>深度研究智能体：系统审视与路线图</h1>
+    <h2>核心摘要与介绍</h2>
+    <p>本演示文稿基于论文《Deep Research Agents: A Systematic Examination and Roadmap》，旨在系统性地介绍这一新兴的AI智能体范式。</p>
+    <div class="data-point">
+        <strong>核心定义：</strong> 深度研究（DR）智能体是由大语言模型（LLMs）驱动的AI系统，它集成了动态推理、自适应规划与迭代式工具使用，以获取、聚合和分析外部信息，最终为完成开放式的信息研究任务生成综合性输出。
+    </div>
+    <p><span class="highlight">关键驱动力：</span> LLMs能力的飞速发展，使得AI能够超越简单的问答，执行复杂的、多轮次的研究工作流。</p>
+    <p><span class="highlight">工业实例：</span> OpenAI DR, Gemini DR, Grok DeepSearch, Perplexity DR 等。</p>
+    <div class="example-box">
+        <strong>示例任务：</strong> “请研究并比较2024年主流电动汽车品牌（如特斯拉、比亚迪、蔚来）在电池技术、自动驾驶软件和全球市场份额方面的最新进展，并生成一份结构化报告。”
+    </div>
+    <div class="citation">来源: Huang et al. arXiv:2506.18096v2 (2025)</div>
+</section>
+
+<section class="slide">
+    <h1>与传统方法的对比</h1>
+    <h2>DR智能体 vs. RAG vs. 传统工具使用</h2>
+    <p>DR智能体并非凭空出现，它建立在检索增强生成（RAG）和工具使用（TU）的基础上，但实现了质的飞跃。</p>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>特性</th>
+                <th>传统RAG</th>
+                <th>传统工具使用(TU)</th>
+                <th><strong>深度研究(DR)智能体</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>核心目标</strong></td>
+                <td>增强事实准确性，减少幻觉</td>
+                <td>执行预定义的工具调用序列</td>
+                <td><span class="highlight">完成端到端的复杂研究任务</span></td>
+            </tr>
+            <tr>
+                <td><strong>工作流</strong></td>
+                <td>静态、一次性检索生成</td>
+                <td>静态、脚本化</td>
+                <td><span class="highlight">动态、自适应、多轮迭代</span></td>
+            </tr>
+            <tr>
+                <td><strong>推理能力</strong></td>
+                <td>有限，依赖检索内容</td>
+                <td>弱或无</td>
+                <td><span class="highlight">持续、深度、多步推理</span></td>
+            </tr>
+            <tr>
+                <td><strong>规划能力</strong></td>
+                <td>无</td>
+                <td>无或固定</td>
+                <td><span class="highlight">自适应长程任务规划</span></td>
+            </tr>
+            <tr>
+                <td><strong>交互性</strong></td>
+                <td>低</td>
+                <td>低</td>
+                <td><span class="highlight">实时、自适应（API/浏览器）</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>总结：DR智能体将强大的推理引擎（LLM）与实时信息获取和灵活的工具调用相结合，实现了真正的“自主研究”。</p>
+</section>
+
+<section class="slide">
+    <h1>核心技术组件（一）：信息获取</h1>
+    <h2>超越静态数据库的实时检索</h2>
+    <p>DR智能体的生命力在于其获取新鲜、广泛信息的能力。主要分为两类：</p>
+    <ol>
+        <li><strong>API-Based 检索：</strong>
+            <ul>
+                <li><strong>方式：</strong> 通过搜索引擎API（如SerperAPI、Google Search API）、学术数据库API等获取结构化结果。</li>
+                <li><strong>优点：</strong> 快速、稳定、成本相对可控。</li>
+                <li><strong>缺点：</strong> 信息经过平台筛选，可能不全面；无法进行深度页面交互。</li>
+            </ul>
+        </li>
+        <li><strong>浏览器-Based 探索：</strong>
+            <ul>
+                <li><strong>方式：</strong> 模拟人类浏览器操作（点击、滚动、表单填写）来访问和提取网页内容。</li>
+                <li><strong>优点：</strong> 信息获取范围极广，可访问长尾、动态生成内容。</li>
+                <li><strong>缺点：</strong> 速度慢，不稳定，解析复杂页面难度高。</li>
+            </ul>
+        </li>
+    </ol>
+    <div class="data-point">
+        <strong>趋势：</strong> 先进的DR系统（如WebGPT）通常采用<strong>混合策略</strong>：先用API快速定位，再用浏览器对关键页面进行深度抓取和分析。
+    </div>
+    <div class="example-box">
+        <strong>示例：</strong> 研究“某新型半导体材料的专利布局”。智能体可能先调用Google Patent API获取专利列表，然后自动打开关键专利的详细页面，提取权利要求和实施例文本进行分析。
+    </div>
+</section>
+
+<section class="slide">
+    <h1>核心技术组件（二）：工具使用与协议</h1>
+    <h2>模块化与生态互操作性</h2>
+    <p>DR智能体需要调用各种工具（计算器、代码解释器、数据分析库、绘图工具等）。其框架的核心挑战是<strong>标准化</strong>和<strong>可扩展性</strong>。</p>
+    <ul>
+        <li><strong>传统工具调用：</strong> 每个工具需为特定LLM定制接口，导致“烟囱式”开发，维护成本高。</li>
+        <li><strong>模型上下文协议 (MCP - Model Context Protocol)：</strong>
+            <ul>
+                <li>由Anthropic提出，旨在成为工具调用的“USB-C接口”。</li>
+                <li>提供统一的通信层，让LLM能通过标准化方式发现、描述和调用任何外部服务或数据源。</li>
+                <li><span class="highlight">价值：</span> 极大降低了集成新工具的复杂度，促进了工具生态的发展。</li>
+            </ul>
+        </li>
+        <li><strong>智能体间协议 (A2A - Agent-to-Agent)：</strong>
+            <ul>
+                <li>由Google提出，旨在解决多智能体协作的标准化问题。</li>
+                <li>通过“智能体卡片”（Agent Cards）、“任务”（Tasks）和“产物”（Artefacts）等抽象，使不同厂商的智能体能够相互发现、协商和协作。</li>
+            </ul>
+        </li>
+    </ul>
+    <div class="data-point">
+        <strong>MCP与A2A的关系：</strong> MCP负责“智能体-工具”的交互，A2A负责“智能体-智能体”的交互。二者结合，为开放、可互操作的智能体生态系统奠定了基础。
+    </div>
+</section>
+
+<section class="slide">
+    <h1>系统分类学</h1>
+    <h2>如何对DR智能体进行系统分类？</h2>
+    <p>论文提出了一个多维分类框架，以厘清当前纷繁复杂的DR系统设计。</p>
+    <div class="architecture-img">
+        <!-- 此处应为论文中的Figure 4示意图，这里用文字描述替代 -->
+        <strong>[示意图：DR系统分类框架]</strong>
+        <p>基于工作流特性、规划策略和智能体架构三个维度。</p>
+    </div>
+    <ol>
+        <li><strong>按工作流特性：</strong>
+            <ul>
+                <li><span class="highlight">静态工作流：</span> 任务执行路径在运行前已大致确定（如预定义的检索-分析-报告步骤）。灵活性低，但稳定可控。</li>
+                <li><span class="highlight">动态工作流：</span> 执行路径根据中间结果实时规划和调整。灵活性高，能处理意外情况，但控制更复杂。</li>
+            </ul>
+        </li>
+        <li><strong>按规划策略：</strong>
+            <ul>
+                <li><strong>集中式规划：</strong> 由一个中央规划模块（通常是LLM）制定全局计划。</li>
+                <li><strong>分布式/反应式规划：</strong> 每个模块或智能体根据局部状态做出决策，通过协作达成目标。</li>
+            </ul>
+        </li>
+        <li><strong>按智能体组成：</strong>
+            <ul>
+                <li><strong>单智能体：</strong> 单个LLM核心协调所有子任务。结构简单，但可能受限于单一模型的专长和上下文长度。</li>
+                <li><strong>多智能体：</strong> 由多个 specialized 的智能体（如检索专家、分析专家、写作专家）协作完成。能力更强，但涉及复杂的通信与协调开销。</li>
+            </ul>
+        </li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h1>评估基准与现有局限</h1>
+    <h2>我们如何衡量DR智能体的好坏？</h2>
+    <p>当前用于评估DR系统的基准主要分为两类，但都存在显著局限。</p>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>基准类型</th>
+                <th>代表基准</th>
+                <th>评估重点</th>
+                <th><strong>主要局限</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>问答型</strong></td>
+                <td>WebGLM, LongBench, HotpotQA</td>
+                <td>答案的事实准确性、引用质量</td>
+                <td>1. 任务相对简单、封闭。<br>2. 无法评估复杂工作流和规划能力。<br>3. 通常只允许<strong>顺序执行</strong>，未发挥DR并行潜力。</td>
+            </tr>
+            <tr>
+                <td><strong>任务执行型</strong></td>
+                <td>WebShop, Mind2Web</td>
+                <td>在真实环境（如网站）中完成多步任务的成功率</td>
+                <td>1. 环境通常是模拟或受限的。<br>2. 侧重于“操作”而非“深度研究”的分析与综合能力。<br>3. <strong>与真实研究目标错位</strong>：评估点击成功率，而非报告质量。</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="data-point">
+        <strong>核心挑战：</strong> 缺乏一个能全面评估DR智能体<strong>深度推理、动态规划、多模态信息综合与高质量报告生成</strong>能力的基准。现有基准的“外部知识访问”也常受限制（如只能访问特定网站快照）。
+    </div>
+</section>
+
+<section class="slide">
+    <h1>开放挑战与未来方向</h1>
+    <h2>通往更强大研究伙伴之路</h2>
+    <p>尽管进展迅速，DR智能体仍面临诸多挑战，也是未来研究的重点方向。</p>
+    <ol>
+        <li><strong>信息获取的广度与深度：</strong>
+            <ul>
+                <li>挑战：如何更高效、更经济地抓取和解析整个开放网络？如何处理付费墙、动态JavaScript内容？</li>
+                <li>方向：发展更智能的浏览器控制策略，结合视觉模型理解网页；探索与专业数据库（如学术、金融）的深度集成。</li>
+            </ul>
+        </li>
+        <li><strong>异步与并行执行：</strong>
+            <ul>
+                <li>挑战：当前DR智能体多为顺序执行，效率低下。例如，等待一个慢速API响应时，无法进行其他分析。</li>
+                <li>方向：设计支持异步、并行任务规划和执行的架构，大幅提升研究效率。</li>
+            </ul>
+        </li>
+        <li><strong>评估基准的对齐与创新：</strong>
+            <ul>
+                <li>挑战：需要创建更贴近真实研究需求、支持多模态输入输出、能评估复杂工作流的基准。</li>
+                <li>方向：开发基于真实用户研究任务（如撰写文献综述、竞品分析）的基准，并引入人类专家评分。</li>
+            </ul>
+        </li>
+        <li><strong>多智能体架构的优化：</strong>
+            <ul>
+                <li>挑战：多智能体系统的通信开销大，容易出现冲突或冗余工作。</li>
+                <li>方向：研究更高效的智能体间通信协议（如A2A的深化）、动态角色分配与冲突解决机制。</li>
+            </ul>
+        </li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h1>总结与展望</h1>
+    <h2>从工具到研究伙伴的演进</h2>
+    <p>深度研究智能体代表了AI从“信息处理工具”向“自主研究伙伴”演进的关键一步。</p>
+    <ul>
+        <li><strong>核心价值：</strong> DR智能体通过整合<strong>动态推理、实时检索、灵活工具使用和结构化输出</strong>，为解决开放域、复杂、知识密集的研究任务提供了通用框架。</li>
+        <li><strong>技术基石：</strong> 建立在LLM推理能力、RAG、工具调用及MCP/A2A等协议的发展之上，并实现了系统性超越。</li>
+        <li><strong>当前状态：</strong> 已在工业界得到初步应用，但在信息获取效率、工作流并行化、评估标准和多智能体协作等方面仍面临显著挑战。</li>
+        <li><strong>未来影响：</strong> 随着技术成熟，DR智能体有望深刻改变学术研究、市场分析、政策调研、技术情报收集等领域的工作模式，成为人类智力活动的强大放大器。</li>
+    </ul>
+    <div class="data-point" style="text-align: center;">
+        <strong>持续更新的资源库：</strong><br>
+        <a href="https://github.com/ai-agents-2030/awesome-deep-research-agent" target="_blank">https://github.com/ai-agents-2030/awesome-deep-research-agent</a>
+    </div>
+</body>
+</html>
