@@ -1,0 +1,90 @@
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+
+    <groupbox>
+        <label>
+            <html:h2>🤖 LLM API 设置</html:h2>
+        </label>
+
+        <hbox align="center">
+            <label value="API 提供商:" style="width: 120px;" />
+            <menulist id="paper2slide-provider" preference="extensions.paper2slide.provider" style="flex: 1;">
+                <menupopup>
+                    <menuitem label="DeepSeek" value="deepseek" />
+                    <menuitem label="OpenAI" value="openai" />
+                    <menuitem label="Google Gemini" value="gemini" />
+                    <menuitem label="自定义 (OpenAI 兼容)" value="custom" />
+                </menupopup>
+            </menulist>
+        </hbox>
+
+        <hbox align="center">
+            <label value="API Key:" style="width: 120px;" />
+            <html:input type="password" id="paper2slide-apiKey" preference="extensions.paper2slide.apiKey"
+                style="flex: 1; padding: 4px;" />
+        </hbox>
+
+        <hbox align="center">
+            <label value="模型名称:" style="width: 120px;" />
+            <html:input type="text" id="paper2slide-model" preference="extensions.paper2slide.model"
+                placeholder="留空使用默认模型" style="flex: 1; padding: 4px;" />
+        </hbox>
+        <label value="  DeepSeek: deepseek-chat | OpenAI: gpt-4o-mini | Gemini: gemini-1.5-flash"
+            style="font-size: 11px; color: #888; margin-left: 120px;" />
+
+        <hbox align="center">
+            <label value="自定义 Base URL:" style="width: 120px;" />
+            <html:input type="text" id="paper2slide-baseUrl" preference="extensions.paper2slide.baseUrl"
+                placeholder="留空使用默认 (Ollama: http://localhost:11434)" style="flex: 1; padding: 4px;" />
+        </hbox>
+    </groupbox>
+
+    <groupbox>
+        <label>
+            <html:h2>📊 幻灯片设置</html:h2>
+        </label>
+
+        <hbox align="center">
+            <label value="输出语言:" style="width: 120px;" />
+            <menulist id="paper2slide-language" preference="extensions.paper2slide.language" style="flex: 1;">
+                <menupopup>
+                    <menuitem label="中文 (Chinese)" value="chinese" />
+                    <menuitem label="English" value="english" />
+                </menupopup>
+            </menulist>
+        </hbox>
+
+        <hbox align="center">
+            <label value="Prompt 预设:" style="width: 120px;" />
+            <menulist id="paper2slide-prompt" preference="extensions.paper2slide.prompt" style="flex: 1;">
+                <menupopup>
+                    <menuitem label="学术风格 (Academic)" value="academic" />
+                    <menuitem label="简洁版 (Simple)" value="simple" />
+                    <menuitem label="详细版 (Detailed)" value="detailed" />
+                </menupopup>
+            </menulist>
+        </hbox>
+
+        <hbox align="center">
+            <label value="幻灯片样式:" style="width: 120px;" />
+            <menulist id="paper2slide-style" preference="extensions.paper2slide.style" style="flex: 1;">
+                <menupopup>
+                    <menuitem label="现代渐变 (Modern)" value="modern" />
+                    <menuitem label="极简白 (Minimal)" value="minimal" />
+                    <menuitem label="暗色主题 (Dark)" value="dark" />
+                    <menuitem label="学术风格 (Academic)" value="academic" />
+                </menupopup>
+            </menulist>
+        </hbox>
+    </groupbox>
+
+    <groupbox>
+        <label>
+            <html:h2>ℹ️ 使用说明</html:h2>
+        </label>
+        <label value="1. 在上方填写你的 LLM API Key" />
+        <label value="2. 选择输出语言（中文/English）" />
+        <label value="3. 选择 PDF 附件，右键点击 → Generate HTML Slides (LLM)" />
+        <label value="4. 等待 30-60 秒，生成的 HTML 会作为附件保存" />
+    </groupbox>
+
+</vbox>

@@ -21,6 +21,7 @@ var Paper2SlideLLM = {
             apiKey: this.getPref('apiKey') || '',
             baseUrl: this.getPref('baseUrl') || '',
             model: this.getPref('model') || '',
+            language: this.getPref('language') || 'chinese',
             prompt: this.getPref('prompt') || 'academic'
         };
     },
@@ -47,10 +48,33 @@ var Paper2SlideLLM = {
         return models[provider] || 'deepseek-chat';
     },
 
-    // Get prompt template
-    getPromptTemplate(style) {
+    // Get prompt template based on style and language
+    getPromptTemplate(style, language) {
+        const isChinese = language === 'chinese';
+
         const prompts = {
-            'academic': `You are an expert at creating academic presentation slides. 
+            'academic': isChinese ?
+                `你是一个学术演示文稿专家。请根据以下论文内容创建一个结构清晰的HTML演示文稿，包含6-10张幻灯片。
+
+要求：
+- 第一张：标题和作者
+- 包含：背景、方法、主要结果、讨论、结论
+- 使用要点列表
+- 每张幻灯片聚焦一个主题
+- 使用清晰的中文
+
+只输出有效的HTML代码，不要markdown，不要解释。
+使用以下结构：
+<section class="slide">
+  <h2>幻灯片标题</h2>
+  <div class="content">
+    <ul>
+      <li>要点1</li>
+      <li>要点2</li>
+    </ul>
+  </div>
+</section>` :
+                `You are an expert at creating academic presentation slides. 
 Given the following academic paper text, create a well-structured HTML presentation with 6-10 slides.
 
 Requirements:
@@ -72,34 +96,21 @@ Use this exact structure for each slide:
   </div>
 </section>`,
 
-            'simple': `Create a simple presentation with 5-6 slides summarizing the key points.
+            'simple': isChinese ?
+                `创建一个简洁的演示文稿，包含5-6张幻灯片，总结关键要点。
+使用要点列表。保持简短清晰。使用中文。
+只输出有效的HTML，使用 <section class="slide"> 标签。` :
+                `Create a simple presentation with 5-6 slides summarizing the key points.
 Use bullet points. Keep it brief and clear.
 Output ONLY valid HTML using <section class="slide"> tags.`,
 
-            'detailed': `Create a comprehensive presentation with 8-12 slides.
+            'detailed': isChinese ?
+                `创建一个详细的演示文稿，包含8-12张幻灯片。
+包含详细解释、示例和支持数据。使用中文。
+只输出有效的HTML，使用 <section class="slide"> 标签。` :
+                `Create a comprehensive presentation with 8-12 slides.
 Include detailed explanations, examples, and supporting data.
-Output ONLY valid HTML using <section class="slide"> tags.`,
-
-            'chinese': `你是一个学术演示文稿专家。请根据以下论文内容创建一个结构清晰的HTML演示文稿，包含6-10张幻灯片。
-
-要求：
-- 第一张：标题和作者
-- 包含：背景、方法、主要结果、讨论、结论
-- 使用要点列表
-- 每张幻灯片聚焦一个主题
-- 使用清晰的中文
-
-只输出有效的HTML代码，不要markdown，不要解释。
-使用以下结构：
-<section class="slide">
-  <h2>幻灯片标题</h2>
-  <div class="content">
-    <ul>
-      <li>要点1</li>
-      <li>要点2</li>
-    </ul>
-  </div>
-</section>`
+Output ONLY valid HTML using <section class="slide"> tags.`
         };
         return prompts[style] || prompts['academic'];
     },
@@ -119,9 +130,9 @@ Output ONLY valid HTML using <section class="slide"> tags.`,
         const provider = config.provider;
         const baseUrl = config.baseUrl || this.getBaseUrl(provider);
         const model = config.model || this.getDefaultModel(provider);
-        const promptTemplate = this.getPromptTemplate(config.prompt);
+        const promptTemplate = this.getPromptTemplate(config.prompt, config.language);
 
-        Zotero.debug(`Paper2Slide: Using provider ${provider}, model ${model}`);
+        Zotero.debug(`Paper2Slide: Using provider ${provider}, model ${model}, language ${config.language}`);
 
         // Truncate paper text if too long (keep first ~15000 chars)
         const maxLength = 15000;

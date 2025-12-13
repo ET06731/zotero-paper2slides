@@ -6,8 +6,8 @@
     "author": "Antigravity",
     "homepage_url": "https://github.com/antigravity/paper2slide",
     "icons": {
-        "48": "icons/icon48.png",
-        "96": "icons/icon96.png"
+        "48": "chrome/content/icons/icon.png",
+        "96": "chrome/content/icons/icon.png"
     },
     "applications": {
         "zotero": {

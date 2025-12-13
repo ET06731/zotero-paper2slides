@@ -25,6 +25,15 @@ async function startup({ id, version, resourceURI, rootURI = resourceURI.spec })
     Paper2Slide.init({ id, version, rootURI });
     Paper2Slide.addToAllWindows();
 
+    // Register preferences pane
+    Zotero.PreferencePanes.register({
+        pluginID: 'paper2slide@antigravity.gemini',
+        src: rootURI + 'chrome/content/preferences.xhtml',
+        label: 'Paper2Slide',
+        image: rootURI + 'chrome/content/icons/icon.png',
+        scripts: [rootURI + 'chrome/content/scripts/preferences.js']
+    });
+
     await Zotero.uiReadyPromise;
 
     log("Started");
