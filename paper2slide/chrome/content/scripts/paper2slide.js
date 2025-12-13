@@ -46,6 +46,7 @@ var Paper2Slide = {
         menuitem.id = 'paper2slide-generate';
         menuitem.setAttribute('label', 'Generate HTML Slides (LLM)');
         menuitem.setAttribute('class', 'menuitem-iconic');
+        menuitem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
         menuitem.addEventListener('command', () => {
             this.generateSlides(window);
         });
