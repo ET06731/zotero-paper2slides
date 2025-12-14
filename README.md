@@ -1,102 +1,101 @@
 # Paper2Slide
 
-🎯 **Zotero 7 插件** - 使用 LLM 将学术论文 PDF 自动转换为 HTML 幻灯片
+🎯 **Zotero 7 Plugin** - Automatically convert academic paper PDFs to HTML slides using LLM
 
 ![Zotero 7](https://img.shields.io/badge/Zotero-7.0-green)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-## ✨ 功能特性
+## ✨ Features
 
-- 📄 **PDF 文本提取** - 自动从 Zotero 中的 PDF 附件提取文本
-- 🤖 **多 LLM 支持** - 支持 DeepSeek、Kimi、豆包、智谱、OpenAI、Gemini 等
-- 🌐 **中英文输出** - 可选择生成中文或英文幻灯片
-- 🎨 **多种样式** - 现代渐变、极简白、暗色主题、学术风格
-- ⚙️ **可视化设置** - 在 Zotero 设置中直接配置
+- 📄 **PDF Text Extraction** - Automatically extract text from PDF attachments in Zotero
+- 🤖 **Multi-LLM Support** - Supports DeepSeek, Kimi, Doubao, Zhipu, OpenAI, Gemini, and more
+- 🌐 **Bilingual Output** - Generate slides in Chinese or English
+- 🎨 **Multiple Themes** - Modern Gradient, Minimal White, Dark Theme, Academic Style
+- ⚙️ **Visual Settings** - Configure directly in Zotero preferences
 
-## 📦 安装
+## 📦 Installation
 
+### Method: Install XPI File
 
-### 方法 : 安装 XPI 文件
+1. Download the latest `.xpi` file
+2. Open Zotero → Tools → Add-ons
+3. Drag and drop the `.xpi` file into the window
 
-1. 下载最新的 `.xpi` 文件
-2. 打开 Zotero → 工具 → 插件
-3. 拖放 `.xpi` 文件到窗口中
+## 🚀 Usage
 
-## 🚀 使用方法
+### 1. Configure API
 
-### 1. 配置 API
+Open **Zotero Preferences → Paper2Slide** and configure:
 
-打开 **Zotero 设置 → Paper2Slide**，配置：
+| Setting | Description |
+|---------|-------------|
+| API Provider | Choose DeepSeek / Kimi / Doubao / Zhipu / OpenAI / Gemini |
+| API Key | Enter the API key for your chosen provider |
+| Output Language | Chinese / English |
+| Prompt Preset | Academic Style / Simple / Detailed |
+| Slide Theme | Modern Gradient / Minimal White / Dark Theme / Academic Style |
 
-| 设置项 | 说明 |
-|--------|------|
-| API 提供商 | 选择 DeepSeek / Kimi / 豆包 / 智谱 / OpenAI / Gemini |
-| API Key | 填入对应平台的 API 密钥 |
-| 输出语言 | 中文 / English |
-| Prompt 预设 | 学术风格 / 简洁版 / 详细版 |
-| 幻灯片样式 | 现代渐变 / 极简白 / 暗色主题 / 学术风格 |
+### 2. Generate Slides
 
-### 2. 生成幻灯片
+1. Select a paper with a PDF attachment in Zotero
+2. **Right-click → Generate HTML Slides (LLM)**
+3. Wait 30-60 seconds (depends on paper length and network speed)
+4. The generated HTML file will be automatically saved as an attachment to the item
 
-1. 在 Zotero 中选择一篇带有 PDF 附件的论文
-2. **右键点击 → Generate HTML Slides (LLM)**
-3. 等待 30-60 秒（取决于论文长度和网络速度）
-4. 生成的 HTML 文件会自动保存为该条目的附件
+## 🔧 Supported LLM Providers
 
-## 🔧 支持的 LLM 提供商
-
-| 提供商 | 默认模型 | API 地址 |
-|--------|----------|----------|
+| Provider | Default Model | API Endpoint |
+|----------|---------------|--------------|
 | DeepSeek | deepseek-chat | api.deepseek.com |
-| Kimi (月之暗面) | moonshot-v1-8k | api.moonshot.cn |
-| 豆包 (字节跳动) | doubao-pro-4k | ark.cn-beijing.volces.com |
-| 智谱 GLM | glm-4-flash | open.bigmodel.cn |
-| 硅基流动 (SiliconFlow) | deepseek-ai/DeepSeek-V3.2 | api.siliconflow.cn |
+| Kimi (Moonshot AI) | moonshot-v1-8k | api.moonshot.cn |
+| Doubao (ByteDance) | doubao-pro-4k | ark.cn-beijing.volces.com |
+| Zhipu GLM | glm-4-flash | open.bigmodel.cn |
+| SiliconFlow | deepseek-ai/DeepSeek-V3.2 | api.siliconflow.cn |
 | Open Router | deepseek-ai/DeepSeek-V3.2 | openrouter.ai/api |
 | OpenAI | gpt-4o-mini | api.openai.com |
 | Google Gemini | gemini-1.5-flash | generativelanguage.googleapis.com |
-| 自定义 | 可配置 | 可配置 (支持 Ollama 等) |
+| Custom | Configurable | Configurable (supports Ollama, etc.) |
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 paper2slide/
-├── manifest.json           # 插件清单
-├── bootstrap.js            # 入口文件
-├── prefs.js               # 默认偏好设置
+├── manifest.json           # Plugin manifest
+├── bootstrap.js            # Entry point
+├── prefs.js               # Default preferences
 └── chrome/
     └── content/
-        ├── preferences.xhtml  # 设置界面
+        ├── preferences.xhtml  # Settings UI
         ├── icons/
-        │   └── icon.png       # 插件图标
+        │   └── icon.png       # Plugin icon
         └── scripts/
-            ├── paper2slide.js     # 主逻辑
-            ├── llm-service.js     # LLM API 调用
-            ├── pdf-utils.js       # PDF 文本提取
-            ├── slide-generator.js # HTML 生成
-            ├── summarizer.js      # 备用摘要器
-            └── preferences.js     # 设置处理
+            ├── paper2slide.js     # Main logic
+            ├── llm-service.js     # LLM API calls
+            ├── pdf-utils.js       # PDF text extraction
+            ├── slide-generator.js # HTML generation
+            ├── summarizer.js      # Backup summarizer
+            └── preferences.js     # Settings handler
 ```
 
-## ❓ 常见问题
+## ❓ FAQ
 
-### Q: 提示 "Could not extract text"
-**A:** 确保 PDF 是文字版（非扫描版）。尝试右键 PDF → 重建条目索引。
+### Q: Shows "Could not extract text"
+**A:** Make sure the PDF contains selectable text (not a scanned image). Try right-clicking the PDF → Rebuild Index.
 
-### Q: 请求超时
+### Q: Request timeout
 **A:** 
-- 当前超时设置为 5 分钟
-- 尝试选择 "简洁版 (Simple)" 预设减少生成内容
-- 检查网络连接
+- Current timeout is set to 5 minutes
+- Try selecting the "Simple" preset to reduce generated content
+- Check your network connection
 
-### Q: 生成内容是英文
-**A:** 在设置中将 "输出语言" 改为 "中文 (Chinese)"。
+### Q: Generated content is in the wrong language
+**A:** Change the "Output Language" setting to your preferred language in preferences.
 
 ## 📄 License
 
 MIT License
 
-## 🙏 致谢
+## 🙏 Acknowledgements
 
-- [Zotero](https://www.zotero.org/) - 优秀的文献管理工具
-- 各 LLM 提供商提供的 API 服务
+- [Zotero](https://www.zotero.org/) - Excellent reference management tool
+- All LLM providers for their API services
