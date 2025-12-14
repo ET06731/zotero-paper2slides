@@ -16,11 +16,12 @@ var Paper2SlideLLM = {
 
     // Get current provider config
     getConfig() {
+        const provider = this.getPref('provider') || 'deepseek';
         return {
-            provider: this.getPref('provider') || 'deepseek',
-            apiKey: this.getPref('apiKey') || '',
+            provider: provider,
+            apiKey: this.getPref('apiKey.' + provider) || '',
             baseUrl: this.getPref('baseUrl') || '',
-            model: this.getPref('model') || '',
+            model: this.getPref('model.' + provider) || '',
             language: this.getPref('language') || 'chinese',
             prompt: this.getPref('prompt') || 'academic'
         };
@@ -73,6 +74,11 @@ var Paper2SlideLLM = {
 - 每张幻灯片聚焦一个主题
 - 使用清晰的中文
 
+幻灯片规格：
+- 宽高比例：16:9（标准PPT宽屏比例）
+- 推荐尺寸：1280px × 720px
+- 每张幻灯片内容适量，留有足够空白
+
 格式要求：
 - 标题页作者格式示例：张三, 李四, 王五 等
 - 每个要点不超过两行
@@ -97,6 +103,11 @@ Requirements:
 - Use bullet points for clarity, keep each point concise
 - Keep each slide focused on one main idea
 - Use clear, academic language
+
+Slide Specifications:
+- Aspect ratio: 16:9 (standard widescreen PPT ratio)
+- Recommended dimensions: 1280px × 720px
+- Keep content balanced with adequate white space on each slide
 
 Formatting:
 - Author line example: John Smith, Jane Doe, Bob Wilson et al.
@@ -262,5 +273,120 @@ Output ONLY valid HTML using <section class="slide"> tags.`
         }
 
         return content.trim();
+    },
+
+    /**
+     * Get default note template
+     */
+    getDefaultNoteTemplate() {
+        return `# {{title}}
+
+## 基本信息
+- **作者**: {{authors}}
+- **期刊**: {{journal}}
+- **年份**: {{year}}
+
+## 研究背景
+(论文解决的问题和研究动机)
+
+## 研究方法
+(主要方法和技术路线)
+
+## 主要结果
+(关键发现和结论)
+
+## 个人笔记
+(你的理解和想法)`;
+    },
+
+    /**
+     * Get note generation prompt
+     */
+    getNotePromptTemplate(noteTemplate, language) {
+        const isChinese = language === 'chinese';
+
+        const basePrompt = isChinese ?
+            `你是一个学术论文阅读助手。请根据以下论文内容，按照用户提供的 Markdown 模板格式生成读书笔记。
+
+要求：
+1. 严格按照模板的结构和格式输出
+2. 用论文中的实际内容填充模板中的各个部分
+3. 占位符 {{title}}, {{authors}}, {{journal}}, {{year}} 应该用论文的实际信息替换
+4. 其他部分根据论文内容进行总结和提炼
+5. 保持 Markdown 格式，确保输出可以直接保存为 .md 文件
+6. 使用清晰简洁的中文
+
+只输出 Markdown 内容，不要添加额外的解释或说明。` :
+            `You are an academic paper reading assistant. Generate reading notes based on the provided paper content, following the user's Markdown template format.
+
+Requirements:
+1. Strictly follow the template structure and format
+2. Fill in each section with actual content from the paper
+3. Replace placeholders {{title}}, {{authors}}, {{journal}}, {{year}} with actual paper information
+4. Summarize and extract key points for other sections based on paper content
+5. Maintain Markdown format, ensure output can be saved directly as .md file
+6. Use clear and concise language
+
+Output ONLY the Markdown content, no additional explanations.`;
+
+        return basePrompt + '\n\n---\n\n用户笔记模板 (Note Template):\n\n' + noteTemplate;
+    },
+
+    /**
+     * Extract Markdown from LLM response (remove code blocks if present)
+     */
+    extractMarkdown(content) {
+        // Remove markdown code blocks
+        content = content.replace(/```markdown\n?/gi, '').replace(/```md\n?/gi, '').replace(/```\n?/g, '');
+        return content.trim();
+    },
+
+    /**
+     * Generate notes from paper using LLM
+     * @param {string} paperText - The paper text
+     * @param {object} metadata - Paper metadata (title, authors, journal, year)
+     * @param {string} templateContent - Optional template content (from Better Notes or Paper2Slide settings)
+     * @returns {Promise<string>} - Markdown notes content
+     */
+    async generateNotes(paperText, metadata = {}, templateContent = null) {
+        const config = this.getConfig();
+
+        if (!config.apiKey) {
+            throw new Error('API Key not configured. Please set it in Zotero Preferences > Paper2Slide');
+        }
+
+        const provider = config.provider;
+        const baseUrl = config.baseUrl || this.getBaseUrl(provider);
+        const model = config.model || this.getDefaultModel(provider);
+
+        // Use provided template or fall back to preferences/default
+        let noteTemplate = templateContent || this.getPref('noteTemplate') || this.getDefaultNoteTemplate();
+
+        // Pre-fill metadata placeholders if available
+        if (metadata.title) noteTemplate = noteTemplate.replace(/\{\{title\}\}/g, metadata.title);
+        if (metadata.authors) noteTemplate = noteTemplate.replace(/\{\{authors\}\}/g, metadata.authors);
+        if (metadata.journal) noteTemplate = noteTemplate.replace(/\{\{journal\}\}/g, metadata.journal);
+        if (metadata.year) noteTemplate = noteTemplate.replace(/\{\{year\}\}/g, metadata.year);
+
+        const promptTemplate = this.getNotePromptTemplate(noteTemplate, config.language);
+
+        Zotero.debug(`Paper2Slide: Generating notes with provider ${provider}, model ${model}`);
+
+        // Truncate paper text if too long
+        const maxLength = 15000;
+        const truncatedText = paperText.length > maxLength
+            ? paperText.substring(0, maxLength) + '\n\n[... text truncated ...]'
+            : paperText;
+
+        const fullPrompt = promptTemplate + '\n\n---\n\nPaper text:\n\n' + truncatedText;
+
+        let result;
+        if (provider === 'gemini') {
+            result = await this.callGeminiAPI(baseUrl, config.apiKey, model, fullPrompt);
+        } else {
+            result = await this.callOpenAICompatibleAPI(baseUrl, config.apiKey, model, fullPrompt);
+        }
+
+        return this.extractMarkdown(result);
     }
 };
