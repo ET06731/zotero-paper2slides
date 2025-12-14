@@ -87,6 +87,39 @@
 
     <groupbox>
         <label>
+            <html:h2>📝 笔记模板设置</html:h2>
+        </label>
+
+        <vbox>
+            <label value="自定义 Markdown 笔记模板:" />
+            <html:textarea id="paper2slide-noteTemplate" preference="extensions.paper2slide.noteTemplate" rows="12"
+                style="width: 100%; font-family: monospace; padding: 8px;" placeholder="# {{title}}
+
+## 基本信息
+- **作者**: {{authors}}
+- **期刊**: {{journal}}
+- **年份**: {{year}}
+
+## 研究背景
+(论文解决的问题和研究动机)
+
+## 研究方法
+(主要方法和技术路线)
+
+## 主要结果
+(关键发现和结论)
+
+## 个人笔记
+(你的理解和想法)"></html:textarea>
+        </vbox>
+
+        <hbox>
+            <label value="支持占位符: {{title}}, {{authors}}, {{journal}}, {{year}}" style="font-size: 11px; color: #888;" />
+        </hbox>
+    </groupbox>
+
+    <groupbox>
+        <label>
             <html:h2>ℹ️ 使用说明</html:h2>
         </label>
         <label value="1. 在上方填写你的 LLM API Key" />
