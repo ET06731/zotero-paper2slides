@@ -7,8 +7,32 @@ function init() {
     // Load current provider first
     currentProvider = Zotero.Prefs.get('extensions.paper2slide.provider', true) || 'deepseek';
 
+    // Initialize provider dropdown separately (not through bindPreference)
+    let providerElement = document.getElementById('paper2slide-provider');
+    if (providerElement) {
+        providerElement.value = currentProvider;
+
+        // Add provider change listener
+        providerElement.addEventListener('command', function (event) {
+            let newProvider = this.value;
+
+            // Save previous preference first
+            Zotero.Prefs.set('extensions.paper2slide.provider', newProvider, true);
+
+            // Save current provider settings before switching
+            saveProviderSettings(currentProvider);
+
+            // Load new provider settings
+            loadProviderSettings(newProvider);
+
+            // Update current provider
+            currentProvider = newProvider;
+
+            Zotero.debug('Paper2Slide: Switched to provider ' + newProvider);
+        });
+    }
+
     // Bind non-provider-specific preferences
-    bindPreference('paper2slide-provider', 'extensions.paper2slide.provider', 'deepseek');
     bindPreference('paper2slide-baseUrl', 'extensions.paper2slide.baseUrl', '');
     bindPreference('paper2slide-language', 'extensions.paper2slide.language', 'chinese');
     bindPreference('paper2slide-prompt', 'extensions.paper2slide.prompt', 'academic');
@@ -17,12 +41,6 @@ function init() {
 
     // Load provider-specific settings
     loadProviderSettings(currentProvider);
-
-    // Add provider change listener
-    let providerElement = document.getElementById('paper2slide-provider');
-    if (providerElement) {
-        providerElement.addEventListener('command', onProviderChange);
-    }
 }
 
 function onProviderChange(event) {
@@ -41,20 +59,34 @@ function onProviderChange(event) {
 }
 
 function loadProviderSettings(provider) {
+    Zotero.debug('Paper2Slide: Loading settings for provider: ' + provider);
+
     // Load API Key for this provider
     let apiKeyElement = document.getElementById('paper2slide-apiKey');
     if (apiKeyElement) {
         let apiKey = Zotero.Prefs.get('extensions.paper2slide.apiKey.' + provider, true) || '';
+        Zotero.debug('Paper2Slide: Setting apiKey to: ' + (apiKey ? '[hidden]' : '[empty]'));
+        // Set both value property and attribute
         apiKeyElement.value = apiKey;
+        apiKeyElement.setAttribute('value', apiKey);
+        // Trigger input event to update UI
+        apiKeyElement.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
     // Load Model for this provider (or use default)
     let modelElement = document.getElementById('paper2slide-model');
     if (modelElement) {
         let model = Zotero.Prefs.get('extensions.paper2slide.model.' + provider, true) || '';
+        Zotero.debug('Paper2Slide: Setting model to: ' + model);
+        // Set both value property and attribute
         modelElement.value = model;
+        modelElement.setAttribute('value', model);
         // Update placeholder with provider default
-        modelElement.placeholder = getDefaultModelHint(provider);
+        let hint = getDefaultModelHint(provider);
+        modelElement.placeholder = hint;
+        modelElement.setAttribute('placeholder', hint);
+        // Trigger input event to update UI
+        modelElement.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
     Zotero.debug('Paper2Slide: Loaded settings for provider ' + provider);

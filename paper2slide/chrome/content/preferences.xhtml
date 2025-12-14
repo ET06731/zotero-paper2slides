@@ -93,24 +93,8 @@
         <vbox>
             <label value="自定义 Markdown 笔记模板:" />
             <html:textarea id="paper2slide-noteTemplate" preference="extensions.paper2slide.noteTemplate" rows="12"
-                style="width: 100%; font-family: monospace; padding: 8px;" placeholder="# {{title}}
-
-## 基本信息
-- **作者**: {{authors}}
-- **期刊**: {{journal}}
-- **年份**: {{year}}
-
-## 研究背景
-(论文解决的问题和研究动机)
-
-## 研究方法
-(主要方法和技术路线)
-
-## 主要结果
-(关键发现和结论)
-
-## 个人笔记
-(你的理解和想法)"></html:textarea>
+                style="width: 100%; font-family: monospace; padding: 8px;"
+                placeholder="输入笔记模板，支持 Markdown 和占位符 {{title}} {{authors}} 等"></html:textarea>
         </vbox>
 
         <hbox>

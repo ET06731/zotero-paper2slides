@@ -152,6 +152,25 @@ var Paper2Slide = {
             Zotero.debug("Paper2Slide: " + text);
         };
 
+        // Helper to close progress window with fallback
+        const closeProgressWindow = (delayMs) => {
+            try {
+                progressWin.startCloseTimer(delayMs);
+            } catch (e) {
+                Zotero.debug("Paper2Slide: startCloseTimer failed, using fallback close");
+            }
+            // Fallback: ensure window closes even if startCloseTimer fails
+            setTimeout(() => {
+                try {
+                    if (progressWin && typeof progressWin.close === 'function') {
+                        progressWin.close();
+                    }
+                } catch (e) {
+                    Zotero.debug("Paper2Slide: fallback close also failed: " + e);
+                }
+            }, delayMs + 500);
+        };
+
         try {
             // 1. Extract Text
             updateProgress("Extracting text from PDF...");
@@ -176,12 +195,12 @@ var Paper2Slide = {
             await this.saveAsAttachment(parentItem, fullHTML, filename);
 
             updateProgress("Done! Slides generated successfully.");
-            progressWin.startCloseTimer(3000);
+            closeProgressWindow(3000);
 
         } catch (e) {
             updateProgress("Error: " + e.message);
             Zotero.debug("Paper2Slide error: " + e);
-            progressWin.startCloseTimer(5000);
+            closeProgressWindow(5000);
             throw e;
         }
     },
@@ -346,6 +365,25 @@ var Paper2Slide = {
             Zotero.debug("Paper2Slide: " + text);
         };
 
+        // Helper to close progress window with fallback
+        const closeProgressWindow = (delayMs) => {
+            try {
+                progressWin.startCloseTimer(delayMs);
+            } catch (e) {
+                Zotero.debug("Paper2Slide: startCloseTimer failed, using fallback close");
+            }
+            // Fallback: ensure window closes even if startCloseTimer fails
+            setTimeout(() => {
+                try {
+                    if (progressWin && typeof progressWin.close === 'function') {
+                        progressWin.close();
+                    }
+                } catch (e) {
+                    Zotero.debug("Paper2Slide: fallback close also failed: " + e);
+                }
+            }, delayMs + 500);
+        };
+
         try {
             // 1. Extract Text
             updateProgress("Extracting text from PDF...");
@@ -389,12 +427,12 @@ var Paper2Slide = {
                 await this.saveMarkdownAsAttachment(parentItem, notesMarkdown, filename);
                 updateProgress("Done! Notes saved as attachment.");
             }
-            progressWin.startCloseTimer(3000);
+            closeProgressWindow(3000);
 
         } catch (e) {
             updateProgress("Error: " + e.message);
             Zotero.debug("Paper2Slide error: " + e);
-            progressWin.startCloseTimer(5000);
+            closeProgressWindow(5000);
             throw e;
         }
     },
