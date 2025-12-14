@@ -1,7 +1,7 @@
 var Paper2SlideLLM = {
     /**
      * Call LLM API to generate slide content
-     * Supports: DeepSeek, OpenAI, Gemini
+     * Supports: DeepSeek, OpenAI, Gemini, SiliconFlow, OpenRouter
      */
 
     // Get preference value
@@ -35,6 +35,8 @@ var Paper2SlideLLM = {
             'kimi': 'https://api.moonshot.cn',
             'doubao': 'https://ark.cn-beijing.volces.com/api',
             'zhipu': 'https://open.bigmodel.cn/api/paas',
+            'siliconflow': 'https://api.siliconflow.cn',
+            'openrouter': 'https://openrouter.ai/api',
             'custom': customUrl || 'http://localhost:11434'
         };
         return urls[provider] || urls['deepseek'];
@@ -49,6 +51,8 @@ var Paper2SlideLLM = {
             'kimi': 'moonshot-v1-8k',
             'doubao': 'doubao-pro-4k',
             'zhipu': 'glm-4-flash',
+            'siliconflow': 'deepseek-ai/DeepSeek-V3.2',
+            'openrouter': 'deepseek-ai/DeepSeek-V3.2',
             'custom': 'llama3'
         };
         return models[provider] || 'deepseek-chat';

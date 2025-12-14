@@ -15,18 +15,11 @@
 
 ## 📦 安装
 
-### 方法 1: 从源码安装（开发模式）
 
-1. 下载或克隆本仓库
-2. 打开 Zotero → 工具 → 附加组件
-3. 点击齿轮图标 → 从文件安装附加组件 (Install Add-on From File)
-4. 选择 `paper2slide` 文件夹
-5. **重要**: 勾选 "作为异步函数执行" (Run as async)
-
-### 方法 2: 安装 XPI 文件
+### 方法 : 安装 XPI 文件
 
 1. 下载最新的 `.xpi` 文件
-2. 打开 Zotero → 工具 → 附加组件
+2. 打开 Zotero → 工具 → 插件
 3. 拖放 `.xpi` 文件到窗口中
 
 ## 🚀 使用方法
@@ -58,6 +51,8 @@
 | Kimi (月之暗面) | moonshot-v1-8k | api.moonshot.cn |
 | 豆包 (字节跳动) | doubao-pro-4k | ark.cn-beijing.volces.com |
 | 智谱 GLM | glm-4-flash | open.bigmodel.cn |
+| 硅基流动 (SiliconFlow) | deepseek-ai/DeepSeek-V3.2 | api.siliconflow.cn |
+| Open Router | deepseek-ai/DeepSeek-V3.2 | openrouter.ai/api |
 | OpenAI | gpt-4o-mini | api.openai.com |
 | Google Gemini | gemini-1.5-flash | generativelanguage.googleapis.com |
 | 自定义 | 可配置 | 可配置 (支持 Ollama 等) |

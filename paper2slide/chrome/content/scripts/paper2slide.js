@@ -109,7 +109,7 @@ var Paper2Slide = {
             let key = window.prompt(
                 "Please enter your API Key:\n\n" +
                 "Provider: " + (this.getPref('provider') || 'deepseek') + "\n" +
-                "(You can change settings in about:config > extensions.paper2slide.*)"
+                "(You can change settings in about:Zotero Settings > Paper2Slide > API Key)"
             );
             if (!key) {
                 return;
