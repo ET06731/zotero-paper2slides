@@ -37,6 +37,7 @@ function init() {
     bindPreference('paper2slide-language', 'extensions.paper2slide.language', 'chinese');
     bindPreference('paper2slide-prompt', 'extensions.paper2slide.prompt', 'academic');
     bindPreference('paper2slide-style', 'extensions.paper2slide.style', 'modern');
+    bindPreference('paper2slide-exportFormat', 'extensions.paper2slide.exportFormat', 'html');
     bindPreference('paper2slide-noteTemplate', 'extensions.paper2slide.noteTemplate', '');
 
     // Load provider-specific settings

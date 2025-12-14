@@ -44,7 +44,7 @@ var Paper2Slide = {
         // Create menu item for slides
         let menuitem = doc.createXULElement('menuitem');
         menuitem.id = 'paper2slide-generate';
-        menuitem.setAttribute('label', 'Generate HTML Slides (LLM)');
+        menuitem.setAttribute('label', 'Generate Slides');
         menuitem.setAttribute('class', 'menuitem-iconic');
         menuitem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
         menuitem.addEventListener('command', () => {
@@ -54,7 +54,7 @@ var Paper2Slide = {
         // Create menu item for notes
         let noteMenuItem = doc.createXULElement('menuitem');
         noteMenuItem.id = 'paper2slide-generate-notes';
-        noteMenuItem.setAttribute('label', 'Generate Markdown Notes (LLM)');
+        noteMenuItem.setAttribute('label', 'Generate Notes');
         noteMenuItem.setAttribute('class', 'menuitem-iconic');
         noteMenuItem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
         noteMenuItem.addEventListener('command', () => {
@@ -190,11 +190,19 @@ var Paper2Slide = {
             let fullHTML = Paper2SlideGenerator.wrapHTML(slidesHTML, title, style);
 
             // 4. Save as attachment
-            updateProgress("Saving attachment...");
+            updateProgress("Saving HTML attachment...");
             let filename = this.sanitizeFilename(title + ' - Slides.html');
             await this.saveAsAttachment(parentItem, fullHTML, filename);
 
-            updateProgress("Done! Slides generated successfully.");
+            // 5. Check if PDF export is enabled
+            let exportFormat = this.getPref('exportFormat') || 'html';
+            if (exportFormat === 'html+pdf') {
+                updateProgress("Opening PDF print dialog...");
+                await this.exportToPDF(fullHTML, title);
+                updateProgress("Done! HTML saved, PDF print dialog opened.");
+            } else {
+                updateProgress("Done! Slides generated successfully.");
+            }
             closeProgressWindow(3000);
 
         } catch (e) {
@@ -233,6 +241,73 @@ var Paper2Slide = {
             tmpFile.remove(false);
         } catch (e) {
             // Ignore cleanup errors
+        }
+    },
+
+    /**
+     * Export HTML slides to PDF by opening in system browser for printing
+     * @param {string} htmlContent - The full HTML content
+     * @param {string} title - Document title
+     */
+    async exportToPDF(htmlContent, title) {
+        try {
+            Zotero.debug("Paper2Slide: Starting PDF export...");
+
+            // Save HTML to a temporary file
+            let tmpDir = Zotero.getTempDirectory();
+            let tmpFile = tmpDir.clone();
+            let filename = this.sanitizeFilename(title + ' - Slides_Print.html');
+            tmpFile.append(filename);
+
+            // Add print-friendly CSS and auto-print script
+            let printableHTML = htmlContent.replace('</head>', `
+                <style>
+                    @media print {
+                        .slide { 
+                            page-break-after: always;
+                            width: 100% !important;
+                            height: auto !important;
+                            margin: 0 !important;
+                            padding: 20px !important;
+                        }
+                        .slide:last-child { page-break-after: avoid; }
+                    }
+                </style>
+                <script>
+                    window.onload = function() {
+                        setTimeout(function() {
+                            window.print();
+                        }, 500);
+                    };
+                </script>
+            </head>`);
+
+            await Zotero.File.putContentsAsync(tmpFile, printableHTML);
+
+            // Open in system default browser
+            Zotero.launchURL('file:///' + tmpFile.path.replace(/\\/g, '/'));
+
+            Zotero.debug("Paper2Slide: Opened print HTML in browser: " + tmpFile.path);
+
+        } catch (e) {
+            Zotero.debug("Paper2Slide: PDF export error: " + e);
+            throw new Error("PDF export failed: " + e.message);
+        }
+    },
+
+    /**
+     * Disable print headers and footers for clean PDF output
+     */
+    disablePrintHeaderFooter() {
+        try {
+            Zotero.Prefs.set("print.print_footercenter", "", true);
+            Zotero.Prefs.set("print.print_footerleft", "", true);
+            Zotero.Prefs.set("print.print_footerright", "", true);
+            Zotero.Prefs.set("print.print_headercenter", "", true);
+            Zotero.Prefs.set("print.print_headerleft", "", true);
+            Zotero.Prefs.set("print.print_headerright", "", true);
+        } catch (e) {
+            Zotero.debug("Paper2Slide: Could not disable print headers: " + e);
         }
     },
 

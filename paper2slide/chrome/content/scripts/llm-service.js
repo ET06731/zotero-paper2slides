@@ -74,6 +74,11 @@ var Paper2SlideLLM = {
 - 每张幻灯片聚焦一个主题
 - 使用清晰的中文
 
+幻灯片规格：
+- 宽高比例：16:9（标准PPT宽屏比例）
+- 推荐尺寸：1280px × 720px
+- 每张幻灯片内容适量，留有足够空白
+
 格式要求：
 - 标题页作者格式示例：张三, 李四, 王五 等
 - 每个要点不超过两行
@@ -98,6 +103,11 @@ Requirements:
 - Use bullet points for clarity, keep each point concise
 - Keep each slide focused on one main idea
 - Use clear, academic language
+
+Slide Specifications:
+- Aspect ratio: 16:9 (standard widescreen PPT ratio)
+- Recommended dimensions: 1280px × 720px
+- Keep content balanced with adequate white space on each slide
 
 Formatting:
 - Author line example: John Smith, Jane Doe, Bob Wilson et al.
