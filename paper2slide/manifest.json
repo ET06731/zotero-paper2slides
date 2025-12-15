@@ -12,7 +12,7 @@
     "applications": {
         "zotero": {
             "id": "paper2slide@ETET06731.gemini",
-            "update_url": "https://raw.githubusercontent.com/ET06731/zotero-paper2slides/main/update.json",
+            "update_url": "https://raw.githubusercontent.com/ET06731/zotero-paper2slides/master/update.json",
             "strict_min_version": "6.999",
             "strict_max_version": "7.0.*"
         }
