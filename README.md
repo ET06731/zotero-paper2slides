@@ -1,17 +1,31 @@
 # Paper2Slide
 
-🎯 **Zotero 7 Plugin** - Automatically convert academic paper PDFs to HTML slides using LLM
+🎯 **Zotero 7 Plugin** - Automatically convert academic paper PDFs to HTML slides and structured notes using LLM
 
 ![Zotero 7](https://img.shields.io/badge/Zotero-7.0-green)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
 ## ✨ Features
 
-- 📄 **PDF Text Extraction** - Automatically extract text from PDF attachments in Zotero
-- 🤖 **Multi-LLM Support** - Supports DeepSeek, Kimi, Doubao, Zhipu, OpenAI, Gemini, and more
-- 🌐 **Bilingual Output** - Generate slides in Chinese or English
-- 🎨 **Multiple Themes** - Modern Gradient, Minimal White, Dark Theme, Academic Style
-- ⚙️ **Visual Settings** - Configure directly in Zotero preferences
+### 🎯 Core Features
+
+| Feature | Description |
+|---------|-------------|
+| **PDF → HTML Slides** | Extract text from PDFs and generate presentation-ready HTML slides via LLM |
+| **PDF → Notes** | Generate structured Markdown notes with customizable templates |
+| **PDF Export** | Export slides to PDF via system print dialog |
+| **Better Notes Integration** | Create native Zotero notes with Better Notes plugin support |
+
+
+### ⚙️ Rich Customization
+
+| Category | Options |
+|----------|---------|
+| **Output Language** | Chinese / English |
+| **Prompt Presets** | Academic / Simple / Detailed |
+| **Slide Themes** | Modern Gradient / Minimal White / Dark / Academic |
+| **Export Format** | HTML only / HTML + PDF |
+| **Note Templates** | Fully customizable with Markdown and placeholders (`{{title}}`, `{{authors}}`, `{{journal}}`, `{{year}}`) |
 
 ## 📦 Installation
 
@@ -29,18 +43,24 @@ Open **Zotero Preferences → Paper2Slide** and configure:
 
 | Setting | Description |
 |---------|-------------|
-| API Provider | Choose DeepSeek / Kimi / Doubao / Zhipu / OpenAI / Gemini |
+| API Provider | Choose DeepSeek / Kimi / Doubao / Zhipu / OpenAI / Gemini / Custom |
 | API Key | Enter the API key for your chosen provider |
-| Output Language | Chinese / English |
-| Prompt Preset | Academic Style / Simple / Detailed |
-| Slide Theme | Modern Gradient / Minimal White / Dark Theme / Academic Style |
+| Model Name | (Optional) Specify a model, or leave blank for default |
+| Custom Base URL | For self-hosted models like Ollama |
 
 ### 2. Generate Slides
 
 1. Select a paper with a PDF attachment in Zotero
-2. **Right-click → Generate HTML Slides (LLM)**
+2. **Right-click → Generate Slides**
 3. Wait 30-60 seconds (depends on paper length and network speed)
-4. The generated HTML file will be automatically saved as an attachment to the item
+4. The generated HTML file will be automatically saved as an attachment
+
+### 3. Generate Notes
+
+1. Select a paper with a PDF attachment
+2. **Right-click → Generate Notes**
+3. Choose a template (default or custom)
+4. Notes will be saved as Markdown attachment or Zotero note
 
 ## 🔧 Supported LLM Providers
 
@@ -90,6 +110,9 @@ paper2slide/
 
 ### Q: Generated content is in the wrong language
 **A:** Change the "Output Language" setting to your preferred language in preferences.
+
+### Q: How to use custom/local models?
+**A:** Select "Custom (OpenAI Compatible)" as provider, set Base URL (e.g., `http://localhost:11434` for Ollama), and specify the model name.
 
 ## 📄 License
 
