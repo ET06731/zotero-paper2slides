@@ -1,0 +1,17 @@
+{
+    "addons": {
+        "paper2slide@ETET06731.gemini": {
+            "updates": [
+                {
+                    "version": "1.0.1",
+                    "update_link": "https://github.com/ET06731/zotero-paper2slides/releases/download/v1.0.1/paper2slide.xpi",
+                    "applications": {
+                        "zotero": {
+                            "strict_min_version": "6.999"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
