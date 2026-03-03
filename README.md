@@ -1,124 +1,126 @@
 # Paper2Slide
 
-🎯 **Zotero 7 Plugin** - Automatically convert academic paper PDFs to HTML slides and structured notes using LLM
+🎯 **Zotero 7 插件** - 使用 LLM 将学术论文 PDF 自动转换为 HTML 幻灯片和结构化笔记
 
 ![Zotero 7](https://img.shields.io/badge/Zotero-7.0-green)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-## ✨ Features
+[English](README-en.md) | 简体中文
 
-### 🎯 Core Features
+## ✨ 功能特性
 
-| Feature | Description |
-|---------|-------------|
-| **PDF → HTML Slides** | Extract text from PDFs and generate presentation-ready HTML slides via LLM |
-| **PDF → Notes** | Generate structured Markdown notes with customizable templates |
-| **PDF Export** | Export slides to PDF via system print dialog |
-| **Better Notes Integration** | Create native Zotero notes with Better Notes plugin support |
+### 🎯 核心功能
+
+| 功能 | 说明 |
+|------|------|
+| **PDF → HTML 幻灯片** | 从 PDF 提取文本，通过 LLM 生成演示文稿 HTML |
+| **PDF → 笔记** | 生成结构化 Markdown 笔记，支持自定义模板 |
+| **PDF 导出** | 通过系统打印对话框导出 PDF |
+| **Better Notes 集成** | 支持创建原生 Zotero 笔记 (需安装 Better Notes 插件) |
 
 
-### ⚙️ Rich Customization
+### ⚙️ 丰富的自定义选项
 
-| Category | Options |
-|----------|---------|
-| **Output Language** | Chinese / English |
-| **Prompt Presets** | Academic / Simple / Detailed |
-| **Slide Themes** | Modern Gradient / Minimal White / Dark / Academic |
-| **Export Format** | HTML only / HTML + PDF |
-| **Note Templates** | Fully customizable with Markdown and placeholders (`{{title}}`, `{{authors}}`, `{{journal}}`, `{{year}}`) |
+| 类别 | 选项 |
+|------|------|
+| **输出语言** | 中文 / English |
+| **Prompt 预设** | 学术风格 / 简洁版 / 详细版 |
+| **幻灯片样式** | 现代渐变 / 极简白 / 暗色主题 / 学术风格 |
+| **导出格式** | 仅 HTML / HTML + PDF |
+| **笔记模板** | 完全自定义，支持 Markdown 和占位符 (`{{title}}`, `{{authors}}`, `{{journal}}`, `{{year}}`) |
 
-## 📦 Installation
+## 📦 安装
 
-### Method: Install XPI File
+### 方法: 安装 XPI 文件
 
-1. Download the latest `.xpi` file
-2. Open Zotero → Tools → Add-ons
-3. Drag and drop the `.xpi` file into the window
+1. 下载最新的 `.xpi` 文件
+2. 打开 Zotero → 工具 → 插件
+3. 拖放 `.xpi` 文件到窗口中
 
-## 🚀 Usage
+## 🚀 使用方法
 
-### 1. Configure API
+### 1. 配置 API
 
-Open **Zotero Preferences → Paper2Slide** and configure:
+打开 **Zotero 设置 → Paper2Slide**，配置：
 
-| Setting | Description |
-|---------|-------------|
-| API Provider | Choose DeepSeek / Kimi / Doubao / Zhipu / OpenAI / Gemini / Custom |
-| API Key | Enter the API key for your chosen provider |
-| Model Name | (Optional) Specify a model, or leave blank for default |
-| Custom Base URL | For self-hosted models like Ollama |
+| 设置项 | 说明 |
+|--------|------|
+| API 提供商 | 选择 DeepSeek / Kimi / 豆包 / 智谱 / OpenAI / Gemini / 自定义 |
+| API Key | 填入对应平台的 API 密钥 |
+| 模型名称 | (可选) 指定模型，留空使用默认模型 |
+| 自定义 Base URL | 用于自托管模型如 Ollama |
 
-### 2. Generate Slides
+### 2. 生成幻灯片
 
-1. Select a paper with a PDF attachment in Zotero
-2. **Right-click → Generate Slides**
-3. Wait 30-60 seconds (depends on paper length and network speed)
-4. The generated HTML file will be automatically saved as an attachment
+1. 在 Zotero 中选择一篇带有 PDF 附件的论文
+2. **右键点击 → Generate Slides**
+3. 等待 30-60 秒（取决于论文长度和网络速度）
+4. 生成的 HTML 文件会自动保存为该条目的附件
 
-### 3. Generate Notes
+### 3. 生成笔记
 
-1. Select a paper with a PDF attachment
-2. **Right-click → Generate Notes**
-3. Choose a template (default or custom)
-4. Notes will be saved as Markdown attachment or Zotero note
+1. 选择一篇带有 PDF 附件的论文
+2. **右键点击 → Generate Notes**
+3. 选择模板（默认模板或自定义模板）
+4. 笔记将保存为 Markdown 附件或 Zotero 笔记
 
-## 🔧 Supported LLM Providers
+## 🔧 支持的 LLM 提供商
 
-| Provider | Default Model | API Endpoint |
-|----------|---------------|--------------|
+| 提供商 | 默认模型 | API 地址 |
+|--------|----------|----------|
 | DeepSeek | deepseek-chat | api.deepseek.com |
-| Kimi (Moonshot AI) | moonshot-v1-8k | api.moonshot.cn |
-| Doubao (ByteDance) | doubao-pro-4k | ark.cn-beijing.volces.com |
-| Zhipu GLM | glm-4-flash | open.bigmodel.cn |
-| SiliconFlow | deepseek-ai/DeepSeek-V3.2 | api.siliconflow.cn |
+| Kimi (月之暗面) | moonshot-v1-8k | api.moonshot.cn |
+| 豆包 (字节跳动) | doubao-pro-4k | ark.cn-beijing.volces.com |
+| 智谱 GLM | glm-4-flash | open.bigmodel.cn |
+| 硅基流动 (SiliconFlow) | deepseek-ai/DeepSeek-V3.2 | api.siliconflow.cn |
 | Open Router | deepseek-ai/DeepSeek-V3.2 | openrouter.ai/api |
 | OpenAI | gpt-4o-mini | api.openai.com |
 | Google Gemini | gemini-1.5-flash | generativelanguage.googleapis.com |
-| Custom | Configurable | Configurable (supports Ollama, etc.) |
+| 自定义 | 可配置 | 可配置 (支持 Ollama 等) |
 
-## 📁 Project Structure
+## 📁 项目结构
 
 ```
 paper2slide/
-├── manifest.json           # Plugin manifest
-├── bootstrap.js            # Entry point
-├── prefs.js               # Default preferences
+├── manifest.json           # 插件清单
+├── bootstrap.js            # 入口文件
+├── prefs.js               # 默认偏好设置
 └── chrome/
     └── content/
-        ├── preferences.xhtml  # Settings UI
+        ├── preferences.xhtml  # 设置界面
         ├── icons/
-        │   └── icon.png       # Plugin icon
+        │   └── icon.png       # 插件图标
         └── scripts/
-            ├── paper2slide.js     # Main logic
-            ├── llm-service.js     # LLM API calls
-            ├── pdf-utils.js       # PDF text extraction
-            ├── slide-generator.js # HTML generation
-            ├── summarizer.js      # Backup summarizer
-            └── preferences.js     # Settings handler
+            ├── paper2slide.js     # 主逻辑
+            ├── llm-service.js     # LLM API 调用
+            ├── pdf-utils.js       # PDF 文本提取
+            ├── slide-generator.js # HTML 生成
+            ├── summarizer.js      # 备用摘要器
+            └── preferences.js     # 设置处理
 ```
 
-## ❓ FAQ
+## ❓ 常见问题
 
-### Q: Shows "Could not extract text"
-**A:** Make sure the PDF contains selectable text (not a scanned image). Try right-clicking the PDF → Rebuild Index.
+### Q: 提示 "Could not extract text"
+**A:** 确保 PDF 是文字版（非扫描版）。尝试右键 PDF → 重建条目索引。
 
-### Q: Request timeout
+### Q: 请求超时
 **A:** 
-- Current timeout is set to 5 minutes
-- Try selecting the "Simple" preset to reduce generated content
-- Check your network connection
+- 当前超时设置为 5 分钟
+- 尝试选择 "简洁版 (Simple)" 预设减少生成内容
+- 检查网络连接
 
-### Q: Generated content is in the wrong language
-**A:** Change the "Output Language" setting to your preferred language in preferences.
+### Q: 生成内容是英文
+**A:** 在设置中将 "输出语言" 改为 "中文 (Chinese)"。
 
-### Q: How to use custom/local models?
-**A:** Select "Custom (OpenAI Compatible)" as provider, set Base URL (e.g., `http://localhost:11434` for Ollama), and specify the model name.
+### Q: 如何使用自定义/本地模型？
+**A:** 选择 "自定义 (OpenAI 兼容)" 作为提供商，设置 Base URL (如 Ollama 使用 `http://localhost:11434`)，并指定模型名称。
 
 ## 📄 License
 
 MIT License
 
-## 🙏 Acknowledgements
+## 🙏 致谢
 
-- [Zotero](https://www.zotero.org/) - Excellent reference management tool
-- All LLM providers for their API services
+- [Zotero](https://www.zotero.org/) - 优秀的文献管理工具
+- 各 LLM 提供商提供的 API 服务
