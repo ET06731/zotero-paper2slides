@@ -30,9 +30,10 @@ var Paper2Slide = {
         Zotero.debug("Paper2Slide: Initialized");
     },
 
-    // 检测是否为 Zotero 8（使用 MenuManager API）
+    // 检测是否为 Zotero 8（平台版本 >= 128 即 Firefox 128+）
     isZotero8() {
-        return typeof Zotero.MenuManager !== 'undefined';
+        // Zotero 7 = Firefox 115, Zotero 8 = Firefox 128+
+        return Zotero.platformMajorVersion >= 128;
     },
 
     addToAllWindows() {
@@ -50,66 +51,76 @@ var Paper2Slide = {
     },
 
     _registerMenuZotero8() {
-        // Zotero 8 官方 MenuManager API
-        this._menuRegistrationID = Zotero.MenuManager.registerMenu({
-            menuID: 'paper2slide-menu',
-            pluginID: 'paper2slide@ETET06731.gemini',
-            target: 'main/library/item',
-            menus: [
-                {
-                    menuType: 'menuitem',
-                    label: 'Generate Slides',
-                    onCommand: (event, context) => {
-                        let win = context.window || Zotero.getMainWindow();
-                        this.generateSlides(win);
+        try {
+            // 尝试 Zotero 8 官方 MenuManager API
+            this._menuRegistrationID = Zotero.MenuManager.registerMenu({
+                menuID: 'paper2slide-menu',
+                pluginID: 'paper2slide@ETET06731.gemini',
+                target: 'main/library/item',
+                menus: [
+                    {
+                        menuType: 'menuitem',
+                        label: 'Generate Slides',
+                        onCommand: (event, context) => {
+                            let win = context.window || Zotero.getMainWindow();
+                            this.generateSlides(win);
+                        }
+                    },
+                    {
+                        menuType: 'menuitem',
+                        label: 'Generate Notes',
+                        onCommand: (event, context) => {
+                            let win = context.window || Zotero.getMainWindow();
+                            this.generateNotes(win);
+                        }
                     }
-                },
-                {
-                    menuType: 'menuitem',
-                    label: 'Generate Notes',
-                    onCommand: (event, context) => {
-                        let win = context.window || Zotero.getMainWindow();
-                        this.generateNotes(win);
-                    }
-                }
-            ]
-        });
+                ]
+            });
+            Zotero.debug("Paper2Slide: Registered menu via MenuManager");
+        } catch (e) {
+            // MenuManager 不可用时降级到 DOM 注入
+            Zotero.debug("Paper2Slide: MenuManager unavailable, falling back to DOM injection: " + e);
+            var windows = Zotero.getMainWindows();
+            for (let win of windows) {
+                if (!win.ZoteroPane) continue;
+                this._addMenuItemsToDOM(win);
+            }
+        }
     },
 
 
-    addToWindow(window) {
-        // Zotero 8 由 MenuManager 统一管理，无需单窗口注入
-        if (this.isZotero8()) return;
-
+    // 公共 DOM 注入方法（Zotero 7 直接调用，Zotero 8 作为 MenuManager 失败时的降级）
+    _addMenuItemsToDOM(window) {
         let doc = window.document;
-
-        // Create menu item for slides
-        let menuitem = doc.createXULElement('menuitem');
-        menuitem.id = 'paper2slide-generate';
-        menuitem.setAttribute('label', 'Generate Slides');
-        menuitem.setAttribute('class', 'menuitem-iconic');
-        menuitem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
-        menuitem.addEventListener('command', () => {
-            this.generateSlides(window);
-        });
-
-        // Create menu item for notes
-        let noteMenuItem = doc.createXULElement('menuitem');
-        noteMenuItem.id = 'paper2slide-generate-notes';
-        noteMenuItem.setAttribute('label', 'Generate Notes');
-        noteMenuItem.setAttribute('class', 'menuitem-iconic');
-        noteMenuItem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
-        noteMenuItem.addEventListener('command', () => {
-            this.generateNotes(window);
-        });
-
-        // Add to item context menu
         let menu = doc.getElementById('zotero-itemmenu');
-        if (menu) {
+        if (!menu) return;
+
+        if (!doc.getElementById('paper2slide-generate')) {
+            let menuitem = doc.createXULElement('menuitem');
+            menuitem.id = 'paper2slide-generate';
+            menuitem.setAttribute('label', 'Generate Slides');
+            menuitem.setAttribute('class', 'menuitem-iconic');
+            menuitem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
+            menuitem.addEventListener('command', () => this.generateSlides(window));
             menu.appendChild(menuitem);
+        }
+
+        if (!doc.getElementById('paper2slide-generate-notes')) {
+            let noteMenuItem = doc.createXULElement('menuitem');
+            noteMenuItem.id = 'paper2slide-generate-notes';
+            noteMenuItem.setAttribute('label', 'Generate Notes');
+            noteMenuItem.setAttribute('class', 'menuitem-iconic');
+            noteMenuItem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
+            noteMenuItem.addEventListener('command', () => this.generateNotes(window));
             menu.appendChild(noteMenuItem);
         }
     },
+
+    addToWindow(window) {
+        if (this.isZotero8()) return;  // Zotero 8 由 _registerMenuZotero8 统一处理
+        this._addMenuItemsToDOM(window);
+    },
+
 
     removeFromAllWindows() {
         // Zotero 8：注销 MenuManager 注册

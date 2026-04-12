@@ -23,6 +23,10 @@ async function startup({ id, version, resourceURI, rootURI = resourceURI.spec })
     Services.scriptloader.loadSubScript(rootURI + "chrome/content/scripts/paper2slide.js");
 
     Paper2Slide.init({ id, version, rootURI });
+
+    // 等待 UI 就绪后再注入菜单和注册设置面板
+    await Zotero.uiReadyPromise;
+
     Paper2Slide.addToAllWindows();
 
     // Register preferences pane
@@ -33,8 +37,6 @@ async function startup({ id, version, resourceURI, rootURI = resourceURI.spec })
         image: rootURI + 'chrome/content/icons/icon.png',
         scripts: [rootURI + 'chrome/content/scripts/preferences.js']
     });
-
-    await Zotero.uiReadyPromise;
 
     log("Started");
 }
