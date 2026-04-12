@@ -31,7 +31,7 @@ async function startup({ id, version, resourceURI, rootURI = resourceURI.spec })
 
     // Register preferences pane
     Zotero.PreferencePanes.register({
-        pluginID: 'paper2slide@ETET06731.gemini',
+        pluginID: 'paper2slide@ET06731.gemini',
         src: rootURI + 'chrome/content/preferences.xhtml',
         label: 'Paper2Slide',
         image: rootURI + 'chrome/content/icons/icon.png',

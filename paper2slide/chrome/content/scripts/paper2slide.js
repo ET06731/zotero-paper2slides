@@ -55,7 +55,7 @@ var Paper2Slide = {
             // 尝试 Zotero 8 官方 MenuManager API
             this._menuRegistrationID = Zotero.MenuManager.registerMenu({
                 menuID: 'paper2slide-menu',
-                pluginID: 'paper2slide@ETET06731.gemini',
+                pluginID: 'paper2slide@ET06731.gemini',
                 target: 'main/library/item',
                 menus: [
                     {
