@@ -1,8 +1,8 @@
 # Paper2Slide
 
-🎯 **Zotero 7 插件** - 使用 LLM 将学术论文 PDF 自动转换为 HTML 幻灯片
+🎯 **Zotero 7 / 8 插件** - 使用 LLM 将学术论文 PDF 自动转换为 HTML 幻灯片
 
-![Zotero 7](https://img.shields.io/badge/Zotero-7.0-green)
+![Zotero](https://img.shields.io/badge/Zotero-7%20%7C%208-green)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
 ## ✨ 功能特性

@@ -30,7 +30,18 @@ var Paper2Slide = {
         Zotero.debug("Paper2Slide: Initialized");
     },
 
+    // 检测是否为 Zotero 8（使用 MenuManager API）
+    isZotero8() {
+        return typeof Zotero.MenuManager !== 'undefined';
+    },
+
     addToAllWindows() {
+        // Zotero 8：MenuManager 自动管理所有窗口，无需手动遍历
+        if (this.isZotero8()) {
+            this._registerMenuZotero8();
+            return;
+        }
+        // Zotero 7：手动向每个窗口注入 DOM
         var windows = Zotero.getMainWindows();
         for (let win of windows) {
             if (!win.ZoteroPane) continue;
@@ -38,7 +49,30 @@ var Paper2Slide = {
         }
     },
 
+    _registerMenuZotero8() {
+        // Zotero 8 官方 MenuManager API
+        this._menuRegistrationID = Zotero.MenuManager.registerMenu({
+            menuID: 'paper2slide-generate',
+            pluginID: 'paper2slide@antigravity.gemini',
+            target: 'main/library/item',
+            menus: [
+                {
+                    menuType: 'menuitem',
+                    label: 'Generate HTML Slides (LLM)',
+                    onCommand: (event, context) => {
+                        // context.items 为当前选中条目
+                        let win = context.window || Zotero.getMainWindow();
+                        this.generateSlides(win);
+                    }
+                }
+            ]
+        });
+    },
+
     addToWindow(window) {
+        // Zotero 8 由 MenuManager 统一管理，无需单窗口注入
+        if (this.isZotero8()) return;
+
         let doc = window.document;
 
         // Create menu item
@@ -59,6 +93,15 @@ var Paper2Slide = {
     },
 
     removeFromAllWindows() {
+        // Zotero 8：注销 MenuManager 注册
+        if (this.isZotero8()) {
+            if (this._menuRegistrationID) {
+                Zotero.MenuManager.unregisterMenu(this._menuRegistrationID);
+                this._menuRegistrationID = null;
+            }
+            return;
+        }
+        // Zotero 7：手动从每个窗口移除 DOM
         var windows = Zotero.getMainWindows();
         for (let win of windows) {
             if (!win.ZoteroPane) continue;
@@ -67,6 +110,7 @@ var Paper2Slide = {
     },
 
     removeFromWindow(window) {
+        if (this.isZotero8()) return;
         let doc = window.document;
         let menuitem = doc.getElementById('paper2slide-generate');
         if (menuitem) {
