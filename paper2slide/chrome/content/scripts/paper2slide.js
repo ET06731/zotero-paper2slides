@@ -52,22 +52,30 @@ var Paper2Slide = {
     _registerMenuZotero8() {
         // Zotero 8 官方 MenuManager API
         this._menuRegistrationID = Zotero.MenuManager.registerMenu({
-            menuID: 'paper2slide-generate',
-            pluginID: 'paper2slide@antigravity.gemini',
+            menuID: 'paper2slide-menu',
+            pluginID: 'paper2slide@ETET06731.gemini',
             target: 'main/library/item',
             menus: [
                 {
                     menuType: 'menuitem',
-                    label: 'Generate HTML Slides (LLM)',
+                    label: 'Generate Slides',
                     onCommand: (event, context) => {
-                        // context.items 为当前选中条目
                         let win = context.window || Zotero.getMainWindow();
                         this.generateSlides(win);
+                    }
+                },
+                {
+                    menuType: 'menuitem',
+                    label: 'Generate Notes',
+                    onCommand: (event, context) => {
+                        let win = context.window || Zotero.getMainWindow();
+                        this.generateNotes(win);
                     }
                 }
             ]
         });
     },
+
 
     addToWindow(window) {
         // Zotero 8 由 MenuManager 统一管理，无需单窗口注入
