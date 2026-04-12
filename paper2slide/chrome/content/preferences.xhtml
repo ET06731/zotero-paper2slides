@@ -13,6 +13,8 @@
                     <menuitem label="Kimi (月之暗面)" value="kimi" />
                     <menuitem label="豆包 (字节跳动)" value="doubao" />
                     <menuitem label="智谱 GLM" value="zhipu" />
+                    <menuitem label="硅基流动 (SiliconFlow)" value="siliconflow" />
+                    <menuitem label="Open Router" value="openrouter" />
                     <menuitem label="OpenAI" value="openai" />
                     <menuitem label="Google Gemini" value="gemini" />
                     <menuitem label="自定义 (OpenAI 兼容)" value="custom" />
@@ -80,6 +82,33 @@
                     <menuitem label="学术风格 (Academic)" value="academic" />
                 </menupopup>
             </menulist>
+        </hbox>
+
+        <hbox align="center">
+            <label value="导出格式:" style="width: 120px;" />
+            <menulist id="paper2slide-exportFormat" preference="extensions.paper2slide.exportFormat" style="flex: 1;">
+                <menupopup>
+                    <menuitem label="仅 HTML" value="html" />
+                    <menuitem label="HTML + PDF (打印对话框)" value="html+pdf" />
+                </menupopup>
+            </menulist>
+        </hbox>
+    </groupbox>
+
+    <groupbox>
+        <label>
+            <html:h2>📝 笔记模板设置</html:h2>
+        </label>
+
+        <vbox>
+            <label value="自定义 Markdown 笔记模板:" />
+            <html:textarea id="paper2slide-noteTemplate" preference="extensions.paper2slide.noteTemplate" rows="12"
+                style="width: 100%; font-family: monospace; padding: 8px;"
+                placeholder="输入笔记模板，支持 Markdown 和占位符 {{title}} {{authors}} 等"></html:textarea>
+        </vbox>
+
+        <hbox>
+            <label value="支持占位符: {{title}}, {{authors}}, {{journal}}, {{year}}" style="font-size: 11px; color: #888;" />
         </hbox>
     </groupbox>
 
