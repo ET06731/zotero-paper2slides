@@ -61,7 +61,7 @@ var Paper2Slide = {
                     {
                         menuType: 'menuitem',
                         l10nID: 'paper2slide-generate-slides',
-                        icon: this.rootURI + 'chrome/content/icons/icon.png',
+                        icon: 'chrome://paper2slide/content/icons/icon.png',
                         onCommand: (event, context) => {
                             let win = context.window || Zotero.getMainWindow();
                             this.generateSlides(win);
@@ -70,7 +70,7 @@ var Paper2Slide = {
                     {
                         menuType: 'menuitem',
                         l10nID: 'paper2slide-generate-notes',
-                        icon: this.rootURI + 'chrome/content/icons/icon.png',
+                        icon: 'chrome://paper2slide/content/icons/icon.png',
                         onCommand: (event, context) => {
                             let win = context.window || Zotero.getMainWindow();
                             this.generateNotes(win);
