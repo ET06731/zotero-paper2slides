@@ -52,7 +52,6 @@ var Paper2Slide = {
 
     _registerMenuZotero8() {
         try {
-            // 尝试 Zotero 8 官方 MenuManager API
             this._menuRegistrationID = Zotero.MenuManager.registerMenu({
                 menuID: 'paper2slide-menu',
                 pluginID: 'paper2slide@ET06731.gemini',
@@ -62,24 +61,23 @@ var Paper2Slide = {
                         menuType: 'menuitem',
                         label: 'Generate Slides',
                         onCommand: (event, context) => {
-                            let win = context.window || Zotero.getMainWindow();
-                            this.generateSlides(win);
+                            let win = Zotero.getMainWindow();
+                            if (win) this.generateSlides(win);
                         }
                     },
                     {
                         menuType: 'menuitem',
                         label: 'Generate Notes',
                         onCommand: (event, context) => {
-                            let win = context.window || Zotero.getMainWindow();
-                            this.generateNotes(win);
+                            let win = Zotero.getMainWindow();
+                            if (win) this.generateNotes(win);
                         }
                     }
                 ]
             });
             Zotero.debug("Paper2Slide: Registered menu via MenuManager");
         } catch (e) {
-            // MenuManager 不可用时降级到 DOM 注入
-            Zotero.debug("Paper2Slide: MenuManager unavailable, falling back to DOM injection: " + e);
+            Zotero.debug("Paper2Slide: MenuManager error, falling back to DOM: " + e);
             var windows = Zotero.getMainWindows();
             for (let win of windows) {
                 if (!win.ZoteroPane) continue;
@@ -98,9 +96,10 @@ var Paper2Slide = {
         if (!doc.getElementById('paper2slide-generate')) {
             let menuitem = doc.createXULElement('menuitem');
             menuitem.id = 'paper2slide-generate';
-            menuitem.setAttribute('label', 'Generate Slides');
-            menuitem.setAttribute('class', 'menuitem-iconic');
-            menuitem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
+            // Zotero 8 (Firefox 128+): 必须用属性赋值，setAttribute('label') 不再生效
+            menuitem.label = 'Generate Slides';
+            menuitem.image = this.rootURI + 'chrome/content/icons/icon.png';
+            menuitem.classList.add('menuitem-iconic');
             menuitem.addEventListener('command', () => this.generateSlides(window));
             menu.appendChild(menuitem);
         }
@@ -108,13 +107,14 @@ var Paper2Slide = {
         if (!doc.getElementById('paper2slide-generate-notes')) {
             let noteMenuItem = doc.createXULElement('menuitem');
             noteMenuItem.id = 'paper2slide-generate-notes';
-            noteMenuItem.setAttribute('label', 'Generate Notes');
-            noteMenuItem.setAttribute('class', 'menuitem-iconic');
-            noteMenuItem.setAttribute('image', this.rootURI + 'chrome/content/icons/icon.png');
+            noteMenuItem.label = 'Generate Notes';
+            noteMenuItem.image = this.rootURI + 'chrome/content/icons/icon.png';
+            noteMenuItem.classList.add('menuitem-iconic');
             noteMenuItem.addEventListener('command', () => this.generateNotes(window));
             menu.appendChild(noteMenuItem);
         }
     },
+
 
     addToWindow(window) {
         if (this.isZotero8()) return;  // Zotero 8 由 _registerMenuZotero8 统一处理
@@ -154,23 +154,37 @@ var Paper2Slide = {
 
     async generateSlides(window) {
         let items = window.ZoteroPane.getSelectedItems();
+        Zotero.debug("Paper2Slide: Selected items count: " + items.length);
+        
         if (items.length !== 1) {
             window.alert("Please select exactly one item.");
             return;
         }
 
         let item = items[0];
+        Zotero.debug("Paper2Slide: Selected item key: " + item.key + ", isAttachment: " + item.isAttachment());
+        
         let pdfItem = null;
 
-        // Find PDF
-        if (item.isAttachment() && item.attachmentContentType === 'application/pdf') {
-            pdfItem = item;
+        if (item.isAttachment()) {
+            Zotero.debug("Paper2Slide: Attachment contentType: " + item.attachmentContentType);
+            if (item.attachmentContentType === 'application/pdf') {
+                pdfItem = item;
+                Zotero.debug("Paper2Slide: Using direct PDF attachment");
+            } else {
+                window.alert("Selected item is not a PDF (type: " + item.attachmentContentType + "). Please select a PDF attachment.");
+                return;
+            }
         } else if (item.isRegularItem()) {
+            Zotero.debug("Paper2Slide: Regular item, looking for attachments");
             let attachments = await item.getAttachments();
+            Zotero.debug("Paper2Slide: Found " + attachments.length + " attachments");
             for (let attId of attachments) {
                 let att = await Zotero.Items.getAsync(attId);
+                Zotero.debug("Paper2Slide: Checking attachment: " + attId + ", type: " + (att ? att.attachmentContentType : 'null'));
                 if (att && att.attachmentContentType === 'application/pdf') {
                     pdfItem = att;
+                    Zotero.debug("Paper2Slide: Found PDF attachment");
                     break;
                 }
             }
@@ -181,7 +195,6 @@ var Paper2Slide = {
             return;
         }
 
-        // Check API key
         let apiKey = this.getPref('apiKey');
         if (!apiKey) {
             let key = window.prompt(
@@ -199,7 +212,11 @@ var Paper2Slide = {
             await this.processItemWithLLM(pdfItem, window);
         } catch (e) {
             Zotero.debug("Paper2Slide error: " + e);
-            window.alert("Error generating slides: " + e.message);
+            if (e.message && e.message.includes('image')) {
+                window.alert("Error: LLM received invalid input. Please ensure you selected a text-based PDF, not a scanned image.\n\nDetails: " + e.message);
+            } else {
+                window.alert("Error generating slides: " + e.message);
+            }
         }
     },
 
