@@ -1,8 +1,8 @@
 # Paper2Slide
 
-🎯 **Zotero 7 Plugin** - Automatically convert academic paper PDFs to HTML slides and structured notes using LLM
+🎯 **Zotero 7 / 8 Plugin** - Automatically convert academic paper PDFs to HTML slides and structured notes using LLM
 
-![Zotero 7](https://img.shields.io/badge/Zotero-7.0-green)
+![Zotero](https://img.shields.io/badge/Zotero-7%20%7C%208-green)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
 English | [简体中文](README.md)
