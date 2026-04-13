@@ -52,6 +52,7 @@ var Paper2Slide = {
 
     _registerMenuZotero8() {
         try {
+            // Zotero 8 官方 MenuManager API，必须用 l10nID + FTL 文件
             this._menuRegistrationID = Zotero.MenuManager.registerMenu({
                 menuID: 'paper2slide-menu',
                 pluginID: 'paper2slide@ET06731.gemini',
@@ -59,25 +60,28 @@ var Paper2Slide = {
                 menus: [
                     {
                         menuType: 'menuitem',
-                        label: 'Generate Slides',
+                        l10nID: 'paper2slide-generate-slides',
+                        icon: this.rootURI + 'chrome/content/icons/icon.png',
                         onCommand: (event, context) => {
-                            let win = Zotero.getMainWindow();
-                            if (win) this.generateSlides(win);
+                            let win = context.window || Zotero.getMainWindow();
+                            this.generateSlides(win);
                         }
                     },
                     {
                         menuType: 'menuitem',
-                        label: 'Generate Notes',
+                        l10nID: 'paper2slide-generate-notes',
+                        icon: this.rootURI + 'chrome/content/icons/icon.png',
                         onCommand: (event, context) => {
-                            let win = Zotero.getMainWindow();
-                            if (win) this.generateNotes(win);
+                            let win = context.window || Zotero.getMainWindow();
+                            this.generateNotes(win);
                         }
                     }
                 ]
             });
             Zotero.debug("Paper2Slide: Registered menu via MenuManager");
         } catch (e) {
-            Zotero.debug("Paper2Slide: MenuManager error, falling back to DOM: " + e);
+            // MenuManager 不可用时降级到 DOM 注入
+            Zotero.debug("Paper2Slide: MenuManager unavailable, falling back to DOM injection: " + e);
             var windows = Zotero.getMainWindows();
             for (let win of windows) {
                 if (!win.ZoteroPane) continue;

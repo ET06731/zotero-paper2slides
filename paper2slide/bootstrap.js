@@ -15,7 +15,6 @@ async function install() {
 async function startup({ id, version, resourceURI, rootURI = resourceURI.spec }) {
     log("Starting...");
 
-    // Load scripts
     Services.scriptloader.loadSubScript(rootURI + "chrome/content/scripts/pdf-utils.js");
     Services.scriptloader.loadSubScript(rootURI + "chrome/content/scripts/summarizer.js");
     Services.scriptloader.loadSubScript(rootURI + "chrome/content/scripts/slide-generator.js");
@@ -24,7 +23,6 @@ async function startup({ id, version, resourceURI, rootURI = resourceURI.spec })
 
     Paper2Slide.init({ id, version, rootURI });
 
-    // 等待 UI 就绪后再注入菜单和注册设置面板
     await Zotero.uiReadyPromise;
 
     Paper2Slide.addToAllWindows();
@@ -37,6 +35,16 @@ async function startup({ id, version, resourceURI, rootURI = resourceURI.spec })
         image: rootURI + 'chrome/content/icons/icon.png',
         scripts: [rootURI + 'chrome/content/scripts/preferences.js']
     });
+
+    // 注册 Fluent 本地化（Zotero 8 菜单必须）
+    try {
+        const mainWin = Zotero.getMainWindow();
+        if (mainWin && mainWin.MozXULElement) {
+            mainWin.MozXULElement.insertFTLIfNeeded('paper2slide.ftl');
+        }
+    } catch (e) {
+        Zotero.debug('Paper2Slide: FTL registration failed: ' + e);
+    }
 
     log("Started");
 }
