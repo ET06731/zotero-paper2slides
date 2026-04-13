@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Paper2Slide",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "description": "Generate HTML slides and Markdown notes from PDF using LLM (DeepSeek, OpenAI, Gemini, SiliconFlow, OpenRouter)",
     "author": "ET06731",
     "homepage_url": "https://github.com/ET06731/zotero-paper2slides",
@@ -13,7 +13,7 @@
         "zotero": {
             "id": "paper2slide@ET06731.gemini",
             "update_url": "https://raw.githubusercontent.com/ET06731/zotero-paper2slides/master/update.json",
-            "strict_min_version": "6.999",
+            "strict_min_version": "7.0",
             "strict_max_version": "8.0.*"
         }
     }

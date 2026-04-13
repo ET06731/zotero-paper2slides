@@ -52,7 +52,6 @@ var Paper2Slide = {
 
     _registerMenuZotero8() {
         try {
-            // Zotero 8 官方 MenuManager API，必须用 l10nID + FTL 文件
             this._menuRegistrationID = Zotero.MenuManager.registerMenu({
                 menuID: 'paper2slide-menu',
                 pluginID: 'paper2slide@ET06731.gemini',
@@ -63,8 +62,8 @@ var Paper2Slide = {
                         l10nID: 'paper2slide-generate-slides',
                         icon: 'chrome://paper2slide/content/icons/icon-menu.svg',
                         onCommand: (event, context) => {
-                            let win = context.window || Zotero.getMainWindow();
-                            this.generateSlides(win);
+                            let win = Zotero.getMainWindow();
+                            if (win) this.generateSlides(win);
                         }
                     },
                     {
@@ -72,16 +71,15 @@ var Paper2Slide = {
                         l10nID: 'paper2slide-generate-notes',
                         icon: 'chrome://paper2slide/content/icons/icon-menu.svg',
                         onCommand: (event, context) => {
-                            let win = context.window || Zotero.getMainWindow();
-                            this.generateNotes(win);
+                            let win = Zotero.getMainWindow();
+                            if (win) this.generateNotes(win);
                         }
                     }
                 ]
             });
             Zotero.debug("Paper2Slide: Registered menu via MenuManager");
         } catch (e) {
-            // MenuManager 不可用时降级到 DOM 注入
-            Zotero.debug("Paper2Slide: MenuManager unavailable, falling back to DOM injection: " + e);
+            Zotero.debug("Paper2Slide: MenuManager error, falling back to DOM: " + e);
             var windows = Zotero.getMainWindows();
             for (let win of windows) {
                 if (!win.ZoteroPane) continue;

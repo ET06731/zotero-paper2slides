@@ -1,8 +1,101 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
-  <!-- 幻灯片/文档图标：左侧竖条 + 右侧内容线条 -->
-  <rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="context-fill" stroke-width="1.5"/>
-  <rect x="3" y="4" width="4" height="8" rx="0.5" fill="context-fill" opacity="0.9"/>
-  <line x1="9" y1="5" x2="13" y2="5" stroke="context-fill" stroke-width="1.2" stroke-linecap="round"/>
-  <line x1="9" y1="8" x2="13" y2="8" stroke="context-fill" stroke-width="1.2" stroke-linecap="round"/>
-  <line x1="9" y1="11" x2="12" y2="11" stroke="context-fill" stroke-width="1.2" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <clipPath id="rounded">
+      <rect x="0" y="0" width="1024" height="1024" rx="200" ry="200"/>
+    </clipPath>
+    <linearGradient id="networkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a371fb"/> <stop offset="100%" stop-color="#49d0f1"/> </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1024" height="1024" fill="white" clip-path="url(#rounded)"/>
+
+  <path d="M 280,180 H 720 A 20,20 0 0 1 740,200 V 280 A 20,20 0 0 1 720,300 H 600 L 400,740 H 480 A 20,20 0 0 1 500,760 V 840 A 20,20 0 0 1 480,860 H 240 A 20,20 0 0 1 220,840 V 760 A 20,20 0 0 1 240,740 H 320 L 520,300 H 280 A 20,20 0 0 1 260,280 V 200 A 20,20 0 0 1 280,180 Z" fill="#1d3557" />
+
+  <g filter="url(#glow)">
+    <line x1="520" y1="380" x2="680" y2="480" stroke="url(#networkGradient)" stroke-width="2" />
+    <line x1="680" y1="480" x2="600" y2="600" stroke="url(#networkGradient)" stroke-width="2" />
+    <line x1="600" y1="600" x2="720" y2="650" stroke="url(#networkGradient)" stroke-width="2" />
+    <line x1="720" y1="650" x2="800" y2="720" stroke="url(#networkGradient)" stroke-width="2" />
+    <line x1="800" y1="720" x2="680" y2="800" stroke="url(#networkGradient)" stroke-width="2" />
+    <line x1="680" y1="800" x2="520" y2="780" stroke="url(#networkGradient)" stroke-width="2" />
+    <line x1="520" y1="780" x2="600" y2="600" stroke="url(#networkGradient)" stroke-width="2" />
+
+    <polyline points="600,600 680,480 800,520 720,650 880,620 960,680 880,800 800,720 720,650 680,480" stroke="url(#networkGradient)" stroke-width="2" fill="none"/>
+    <polyline points="800,520 900,560 960,680" stroke="url(#networkGradient)" stroke-width="2" fill="none"/>
+    <polyline points="960,680 880,800 830,830" stroke="url(#networkGradient)" stroke-width="2" fill="none"/>
+    <polyline points="800,720 680,800 730,900" stroke="url(#networkGradient)" stroke-width="2" fill="none"/>
+    <polyline points="600,600 550,750 680,750 720,650" stroke="url(#networkGradient)" stroke-width="2" fill="none"/>
+    <polyline points="500,520 600,600" stroke="url(#networkGradient)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+
+    <circle cx="520" cy="380" r="10" fill="url(#networkGradient)" />
+    <circle cx="680" cy="480" r="12" fill="url(#networkGradient)" />
+    <circle cx="600" cy="600" r="14" fill="url(#networkGradient)" />
+    <circle cx="720" cy="650" r="10" fill="url(#networkGradient)" />
+    <circle cx="800" cy="720" r="12" fill="url(#networkGradient)" />
+    <circle cx="680" cy="800" r="10" fill="url(#networkGradient)" />
+    <circle cx="520" cy="780" r="10" fill="url(#networkGradient)" />
+
+    <circle cx="880" cy="620" r="10" fill="url(#networkGradient)" />
+    <circle cx="800" cy="520" r="8" fill="url(#networkGradient)" />
+    <circle cx="960" cy="680" r="10" fill="url(#networkGradient)" />
+    <circle cx="880" cy="800" r="8" fill="url(#networkGradient)" />
+    <circle cx="900" cy="560" r="6" fill="url(#networkGradient)" />
+    <circle cx="500" cy="520" r="8" fill="url(#networkGradient)" />
+    <circle cx="680" cy="750" r="8" fill="url(#networkGradient)" />
+    <circle cx="550" cy="750" r="8" fill="url(#networkGradient)" />
+    <circle cx="830" cy="830" r="6" fill="url(#networkGradient)" />
+    <circle cx="730" cy="900" r="6" fill="url(#networkGradient)" />
+    <circle cx="630" cy="900" r="6" fill="url(#networkGradient)" />
+    <circle cx="530" cy="900" r="6" fill="url(#networkGradient)" />
+    <circle cx="430" cy="900" r="6" fill="url(#networkGradient)" />
+
+    <circle cx="450" cy="350" r="4" fill="#a371fb"/>
+    <circle cx="480" cy="420" r="4" fill="#a371fb"/>
+    <circle cx="550" cy="450" r="4" fill="#a371fb"/>
+    <circle cx="600" cy="350" r="4" fill="#a371fb"/>
+    <circle cx="750" cy="850" r="4" fill="#a371fb"/>
+    <circle cx="650" cy="850" r="4" fill="#a371fb"/>
+    <circle cx="550" cy="850" r="4" fill="#a371fb"/>
+    <circle cx="450" cy="800" r="4" fill="#a371fb"/>
+    <circle cx="420" cy="700" r="4" fill="#a371fb"/>
+    <circle cx="450" cy="600" r="4" fill="#a371fb"/>
+    <circle cx="420" cy="500" r="4" fill="#a371fb"/>
+    <circle cx="730" cy="900" r="4" fill="#a371fb"/>
+    <circle cx="630" cy="900" r="4" fill="#a371fb"/>
+    <circle cx="530" cy="900" r="4" fill="#a371fb"/>
+    <circle cx="350" cy="450" r="2" fill="#a371fb"/>
+    <circle cx="380" cy="550" r="2" fill="#a371fb"/>
+    <circle cx="350" cy="650" r="2" fill="#a371fb"/>
+    <circle cx="380" cy="750" r="2" fill="#a371fb"/>
+    <circle cx="900" cy="950" r="2" fill="#a371fb"/>
+    <circle cx="800" cy="950" r="2" fill="#a371fb"/>
+    <circle cx="700" cy="950" r="2" fill="#a371fb"/>
+    <circle cx="600" cy="950" r="2" fill="#a371fb"/>
+    <circle cx="500" cy="950" r="2" fill="#a371fb"/>
+    <circle cx="400" cy="950" r="2" fill="#a371fb"/>
+    <circle cx="300" cy="950" r="2" fill="#a371fb"/>
+
+    <circle cx="750" cy="450" r="4" fill="#49d0f1"/>
+    <circle cx="850" cy="480" r="4" fill="#49d0f1"/>
+    <circle cx="900" cy="650" r="4" fill="#49d0f1"/>
+    <circle cx="850" cy="750" r="4" fill="#49d0f1"/>
+    <circle cx="850" cy="550" r="4" fill="#49d0f1"/>
+    <circle cx="930" cy="600" r="4" fill="#49d0f1"/>
+    <circle cx="930" cy="730" r="4" fill="#49d0f1"/>
+    <circle cx="830" cy="830" r="4" fill="#49d0f1"/>
+    <circle cx="900" cy="350" r="2" fill="#49d0f1"/>
+    <circle cx="950" cy="450" r="2" fill="#49d0f1"/>
+    <circle cx="900" cy="500" r="2" fill="#49d0f1"/>
+    <circle cx="980" cy="750" r="2" fill="#49d0f1"/>
+    <circle cx="980" cy="600" r="2" fill="#49d0f1"/>
+    <circle cx="950" cy="850" r="2" fill="#49d0f1"/>
+  </g>
+
 </svg>

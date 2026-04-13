@@ -24,8 +24,8 @@ var Paper2SlidePDF = {
         Zotero.debug("Paper2Slide: No text found, attempting reindex...");
         await Zotero.Fulltext.indexItems([item.id], { complete: true });
 
-        // Wait for indexing
-        await Zotero.Promise.delay(2000);
+        // Wait for indexing (Z8: Bluebird removed, use native Promise)
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         // Try again
         text = await item.attachmentText;
