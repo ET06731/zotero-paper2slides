@@ -61,7 +61,7 @@ var Paper2Slide = {
                     {
                         menuType: 'menuitem',
                         l10nID: 'paper2slide-generate-slides',
-                        icon: 'chrome://paper2slide/content/icons/icon.png',
+                        icon: 'chrome://paper2slide/content/icons/icon-menu.svg',
                         onCommand: (event, context) => {
                             let win = context.window || Zotero.getMainWindow();
                             this.generateSlides(win);
@@ -70,7 +70,7 @@ var Paper2Slide = {
                     {
                         menuType: 'menuitem',
                         l10nID: 'paper2slide-generate-notes',
-                        icon: 'chrome://paper2slide/content/icons/icon.png',
+                        icon: 'chrome://paper2slide/content/icons/icon-menu.svg',
                         onCommand: (event, context) => {
                             let win = context.window || Zotero.getMainWindow();
                             this.generateNotes(win);
@@ -102,7 +102,7 @@ var Paper2Slide = {
             menuitem.id = 'paper2slide-generate';
             // Zotero 8 (Firefox 128+): 必须用属性赋值，setAttribute('label') 不再生效
             menuitem.label = 'Generate Slides';
-            menuitem.image = this.rootURI + 'chrome/content/icons/icon.png';
+            menuitem.image = 'chrome://paper2slide/content/icons/icon-menu.svg';
             menuitem.classList.add('menuitem-iconic');
             menuitem.addEventListener('command', () => this.generateSlides(window));
             menu.appendChild(menuitem);
@@ -112,7 +112,7 @@ var Paper2Slide = {
             let noteMenuItem = doc.createXULElement('menuitem');
             noteMenuItem.id = 'paper2slide-generate-notes';
             noteMenuItem.label = 'Generate Notes';
-            noteMenuItem.image = this.rootURI + 'chrome/content/icons/icon.png';
+            noteMenuItem.image = 'chrome://paper2slide/content/icons/icon-menu.svg';
             noteMenuItem.classList.add('menuitem-iconic');
             noteMenuItem.addEventListener('command', () => this.generateNotes(window));
             menu.appendChild(noteMenuItem);
